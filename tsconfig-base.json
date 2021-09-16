@@ -2,24 +2,22 @@
   "compilerOptions": {
     "composite": true,
 
-    // As recmmoneded in https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping#node-10
-    "target": "ES2018",
-    "module": "CommonJS",
-    "lib": ["ES2018"],
-    "moduleResolution": "Node",
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-
-    "strict": true /* Enable all strict type-checking options. */,
+    "lib": ["ES2018"],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "target": "ES2018",
     "useDefineForClassFields": true,
 
     /* Additional Checks */
+    "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
+    "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
     "noUnusedLocals": true /* Report errors on unused locals. */,
     "noUnusedParameters": true /* Report errors on unused parameters. */,
-    "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
-    "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
 
     "typeRoots": ["node_modules/@types", "src/types", "lib/types"]
   }
