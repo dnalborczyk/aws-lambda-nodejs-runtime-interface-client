@@ -6,7 +6,7 @@
     "target": "ES2018",
     "module": "CommonJS",
     "lib": ["ES2018"],
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -18,12 +18,6 @@
     "noUnusedParameters": true /* Report errors on unused parameters. */,
     "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
     "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
-
-    /* Debugging Options */
-    "traceResolution": false /* Report module resolution log messages. */,
-    "listEmittedFiles": false /* Print names of generated files part of the compilation. */,
-    "listFiles": false /* Print names of files part of the compilation. */,
-    "pretty": true /* Stylize errors and messages using color and context. */,
 
     "typeRoots": ["node_modules/@types", "src/types", "lib/types"]
   }
