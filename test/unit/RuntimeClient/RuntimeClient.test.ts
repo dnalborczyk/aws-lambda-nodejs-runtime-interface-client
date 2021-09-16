@@ -4,7 +4,6 @@ require("should");
 import RuntimeClient from "../../../src/RuntimeClient";
 import * as runtimeErrors from "../../../src/Errors";
 import { StubHttp } from "../utils/StubHttp";
-import { NoOpNativeHttp } from "../utils/NoOpNativeHttp";
 
 class EvilError extends Error {
   get name(): string {
@@ -16,11 +15,7 @@ const EXPECTED_ERROR_HEADER = "Lambda-Runtime-Function-Error-Type";
 
 describe("building error requests with the RuntimeClient", () => {
   const stubHttp = new StubHttp();
-  const client = new RuntimeClient(
-    "notUsed:1337",
-    stubHttp,
-    new NoOpNativeHttp()
-  );
+  const client = new RuntimeClient("notUsed:1337", stubHttp);
 
   const errors: Array<[Error, string]> = [
     [new Error("generic failure"), "Error"],
