@@ -9,7 +9,6 @@
     "moduleResolution": "node",
     "declaration": true,
     "declarationMap": true,
-    "inlineSourceMap": true,
     "esModuleInterop": true,
 
     "strict": true /* Enable all strict type-checking options. */,
