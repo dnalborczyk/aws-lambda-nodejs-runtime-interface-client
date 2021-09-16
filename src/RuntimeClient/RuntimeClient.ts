@@ -70,7 +70,7 @@ export default class RuntimeClient implements IRuntimeClient {
     const [hostname, port] = hostnamePort.split(":");
     this.hostname = hostname;
     this.port = parseInt(port, 10);
-    this.agent = new this.http.Agent({
+    this.agent = new Agent({
       keepAlive: true,
       maxSockets: 1,
     });
