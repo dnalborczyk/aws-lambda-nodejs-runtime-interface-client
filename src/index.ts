@@ -6,6 +6,7 @@
  * listeners and loads the user's code.
  */
 
+import http from "http";
 import { HandlerFunction } from "./Common";
 import * as Errors from "./Errors";
 import RuntimeClient from "./RuntimeClient";
@@ -20,7 +21,7 @@ export function run(appRoot: string, handler: string): void {
   if (!process.env.AWS_LAMBDA_RUNTIME_API) {
     throw new Error("Missing Runtime API Server configuration.");
   }
-  const client = new RuntimeClient(process.env.AWS_LAMBDA_RUNTIME_API);
+  const client = new RuntimeClient(process.env.AWS_LAMBDA_RUNTIME_API, http);
 
   const errorCallbacks = {
     uncaughtException: (error: Error) => {

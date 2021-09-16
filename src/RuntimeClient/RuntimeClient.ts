@@ -62,8 +62,9 @@ export default class RuntimeClient implements IRuntimeClient {
   hostname: string;
   port: number;
 
-  constructor(hostnamePort: string, httpClient?: HttpModule) {
-    this.http = httpClient || require("http");
+  // TODO FIXME http module is only a parameter for testing, should be removed
+  constructor(hostnamePort: string, httpClient: HttpModule) {
+    this.http = httpClient;
     this.userAgent = userAgent();
 
     const [hostname, port] = hostnamePort.split(":");
