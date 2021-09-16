@@ -6,8 +6,6 @@
  * listeners and loads the user's code.
  */
 
-"use strict";
-
 import { HandlerFunction } from "./Common";
 import * as Errors from "./Errors";
 import RuntimeClient from "./RuntimeClient";

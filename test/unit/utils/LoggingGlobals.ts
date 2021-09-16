@@ -1,8 +1,6 @@
 /* eslint-disable prefer-rest-params */
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-"use strict";
-
 /**
  * Testing logging in unit tests requires manipulating the global console and
  * stdout objects.

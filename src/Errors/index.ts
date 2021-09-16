@@ -6,8 +6,6 @@
  * Defines custom error types throwable by the runtime.
  */
 
-"use strict";
-
 import util from "util";
 
 export function isError(obj: any): obj is Error {

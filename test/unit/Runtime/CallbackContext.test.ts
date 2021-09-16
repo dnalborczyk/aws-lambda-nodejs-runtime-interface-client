@@ -1,7 +1,5 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-"use strict";
-
 import { IncomingHttpHeaders } from "http";
 import BeforeExitListener from "../../../src/Runtime/BeforeExitListener";
 import { IRuntimeClient } from "../../../src/RuntimeClient";

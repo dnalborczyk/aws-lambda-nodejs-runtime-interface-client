@@ -5,8 +5,6 @@
  * bootstrap's execution flow.
  */
 
-"use strict";
-
 import BeforeExitListener from "./BeforeExitListener";
 import { HandlerFunction, IErrorCallbacks } from "../Common";
 import * as CallbackContext from "./CallbackContext";

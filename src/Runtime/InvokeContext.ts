@@ -6,8 +6,6 @@
  * and for wrapping the Runtime Client object's error and response functions.
  */
 
-"use strict";
-
 import { strict as assert } from "assert";
 import { IncomingHttpHeaders } from "http";
 import {

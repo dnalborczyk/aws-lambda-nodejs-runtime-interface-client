@@ -6,8 +6,6 @@
  * in a handler string.
  */
 
-"use strict";
-
 import path from "path";
 import fs from "fs";
 import { HandlerFunction } from "../Common";
@@ -143,9 +141,8 @@ export const load = function (
 ): HandlerFunction {
   _throwIfInvalidHandler(fullHandlerString);
 
-  const [moduleRoot, moduleAndHandler] = _moduleRootAndHandler(
-    fullHandlerString
-  );
+  const [moduleRoot, moduleAndHandler] =
+    _moduleRootAndHandler(fullHandlerString);
   const [module, handlerPath] = _splitHandlerString(moduleAndHandler);
 
   const userApp = _loadUserApp(appRoot, moduleRoot, module);

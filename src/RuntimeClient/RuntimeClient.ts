@@ -5,8 +5,6 @@
  * interactions with the Runtime layer.
  */
 
-"use strict";
-
 import {
   Agent,
   RequestOptions,

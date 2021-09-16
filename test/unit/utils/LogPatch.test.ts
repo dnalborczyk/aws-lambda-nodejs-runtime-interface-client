@@ -1,7 +1,5 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-"use strict";
-
 import should from "should";
 import LogPatch from "../../../src/utils/LogPatch";
 import * as Errors from "../../../src/Errors";

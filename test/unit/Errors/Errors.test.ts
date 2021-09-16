@@ -1,7 +1,5 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-"use strict";
-
 require("should");
 import * as Errors from "../../../src/Errors";
 
