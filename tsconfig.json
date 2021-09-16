@@ -1,7 +1,29 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./src" },
-    { "path": "./test/unit" },
-  ]
+  "compilerOptions": {
+    // "composite": true,
+
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "exactOptionalPropertyTypes": false, // TODO FIXME: set to true
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["ES2018"],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "./lib",
+    "strict": true,
+    "target": "ES2018",
+    "useDefineForClassFields": true,
+    "useUnknownInCatchVariables": false, // TODO FIXME: set to true
+
+    /* Additional Checks */
+    "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
+    "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
+    "noUnusedLocals": true /* Report errors on unused locals. */,
+    "noUnusedParameters": true /* Report errors on unused parameters. */,
+
+    // "typeRoots": ["node_modules/@types", "src/types", "lib/types"]
+  },
+  "exclude": ["test"]
+
 }
