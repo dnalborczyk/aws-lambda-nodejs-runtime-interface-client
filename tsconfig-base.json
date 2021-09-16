@@ -13,6 +13,7 @@
     "forceConsistentCasingInFileNames": true,
 
     "strict": true /* Enable all strict type-checking options. */,
+    "useDefineForClassFields": true,
 
     /* Additional Checks */
     "noUnusedLocals": true /* Report errors on unused locals. */,
