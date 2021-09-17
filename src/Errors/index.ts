@@ -129,6 +129,6 @@ export class UnhandledPromiseRejection extends ExtendedError {
   MalformedHandlerName,
   UserCodeSyntaxError,
   UnhandledPromiseRejection,
-].forEach((e) => {
-  e.prototype.name = `Runtime.${e.name}`
+].forEach((err) => {
+  err.prototype.name = `Runtime.${err.name}`
 })

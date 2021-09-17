@@ -175,8 +175,8 @@ export default class RuntimeClient implements IRuntimeClient {
           })
       })
       request
-        .on('error', (e) => {
-          reject(e)
+        .on('error', (err) => {
+          reject(err)
         })
         .end()
     })
@@ -219,15 +219,15 @@ export default class RuntimeClient implements IRuntimeClient {
         .on('end', () => {
           callback()
         })
-        .on('error', (e) => {
-          throw e
+        .on('error', (err) => {
+          throw err
         })
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         .on('data', () => {})
     })
     request
-      .on('error', (e) => {
-        throw e
+      .on('error', (err) => {
+        throw err
       })
       .end(bodyString, 'utf-8')
   }
