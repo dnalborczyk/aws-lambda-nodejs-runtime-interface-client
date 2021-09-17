@@ -12,8 +12,8 @@ import {
   ClientRequest,
   OutgoingHttpHeaders,
 } from 'http'
-import { URL } from 'url'
-import { InvocationResponse } from '../Common/index'
+import type { URL } from 'url'
+import type { InvocationResponse } from '../Common/index'
 import * as Errors from '../Errors/index'
 import * as XRayError from '../Errors/XRayError'
 

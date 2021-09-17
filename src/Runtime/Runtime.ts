@@ -6,10 +6,10 @@
  */
 
 import BeforeExitListener from './BeforeExitListener'
-import { HandlerFunction, IErrorCallbacks } from '../Common/index'
+import type { HandlerFunction, IErrorCallbacks } from '../Common/index'
 import * as CallbackContext from './CallbackContext'
 import InvokeContext from './InvokeContext'
-import { IRuntimeClient } from '../RuntimeClient/index'
+import type { IRuntimeClient } from '../RuntimeClient/index'
 
 const { parse } = JSON
 
