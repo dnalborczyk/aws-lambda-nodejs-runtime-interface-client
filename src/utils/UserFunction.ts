@@ -8,7 +8,7 @@
 
 import { existsSync } from 'fs'
 import { basename, resolve } from 'path'
-import { HandlerFunction } from '../Common/index'
+import type { HandlerFunction } from '../Common/index'
 import {
   HandlerNotFound,
   MalformedHandlerName,
