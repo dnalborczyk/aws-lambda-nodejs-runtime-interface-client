@@ -17,7 +17,7 @@ import {
 import LogPatch from '../utils/LogPatch'
 
 const { parse } = JSON
-const { assign, keys } = Object
+const { assign, entries, fromEntries } = Object
 
 const setCurrentRequestId = LogPatch.setCurrentRequestId
 
@@ -161,14 +161,10 @@ function _parseJson(jsonString?: string, name?: string): string | undefined {
   return undefined
 }
 
-/**
- * Construct a copy of an object such that all of its keys are lowercase.
- */
 function _enforceLowercaseKeys(
   original: IncomingHttpHeaders,
 ): IncomingHttpHeaders {
-  return keys(original).reduce((enforced, originalKey) => {
-    enforced[originalKey.toLowerCase()] = original[originalKey]
-    return enforced
-  }, {} as IncomingHttpHeaders)
+  return fromEntries(
+    entries(original).map(([key, value]) => [key.toLowerCase(), value]),
+  )
 }
