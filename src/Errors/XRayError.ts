@@ -91,7 +91,7 @@ class XRayFormattedCause {
         const entry = {
           path: pathParts[0],
           line: parseInt(pathParts[1]),
-          label: label || 'anonymous',
+          label: label ?? 'anonymous',
         }
 
         stack.push(entry)

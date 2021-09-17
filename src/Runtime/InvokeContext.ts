@@ -109,7 +109,7 @@ export default class InvokeContext {
    */
   #headerData(): IHeaderData {
     const deadline = parseInt(
-      this.#getHeaderValue(INVOKE_HEADER.DeadlineMs) || '',
+      this.#getHeaderValue(INVOKE_HEADER.DeadlineMs) ?? '',
     )
     return {
       clientContext: _parseJson(
