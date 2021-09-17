@@ -106,10 +106,7 @@ class XRayFormattedCause {
       },
     ]
 
-    const paths = new Set<string>()
-    stack.forEach((entry) => {
-      paths.add(entry.path)
-    })
+    const paths = new Set(stack.map(({ path }) => path))
     this.paths = Array.from(paths)
   }
 }
