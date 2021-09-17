@@ -97,14 +97,14 @@ function _loadUserApp(
 ): any {
   try {
     return _tryRequire(appRoot, moduleRoot, module)
-  } catch (e) {
-    if (e instanceof SyntaxError) {
-      throw new UserCodeSyntaxError(<any>e)
-    } else if (e.code !== undefined && e.code === 'MODULE_NOT_FOUND') {
-      throw new ImportModuleError(e)
-    } else {
-      throw e
+  } catch (err) {
+    if (err instanceof SyntaxError) {
+      throw new UserCodeSyntaxError(err as any)
+    } else if (err.code !== undefined && err.code === 'MODULE_NOT_FOUND') {
+      throw new ImportModuleError(err)
     }
+
+    throw err
   }
 }
 
@@ -135,7 +135,7 @@ function _throwIfInvalidHandler(fullHandlerString: string): void {
  *       for traversing up the filesystem '..')
  *   Errors for scenarios known by the runtime, will be wrapped by Runtime.* errors.
  */
-export const load = function (
+export function load(
   appRoot: string,
   fullHandlerString: string,
 ): HandlerFunction {
