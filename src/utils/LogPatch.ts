@@ -2,8 +2,8 @@
 /* eslint-disable no-console */
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import * as fs from 'fs'
-import * as util from 'util'
+import { writeSync } from 'fs'
+import { format } from 'util'
 
 const { freeze } = Object
 
@@ -56,8 +56,8 @@ function _logToFd(logTarget: any) {
     const enrichedMessage = `${time}\t${requestId}\t${level.name}\t${message}\n`
     const messageBytes = Buffer.from(enrichedMessage, 'utf8')
     typeAndLength.writeInt32BE(messageBytes.length, 4)
-    fs.writeSync(logTarget, typeAndLength)
-    fs.writeSync(logTarget, messageBytes)
+    writeSync(logTarget, typeAndLength)
+    writeSync(logTarget, messageBytes)
   }
 }
 
@@ -67,25 +67,25 @@ function _logToFd(logTarget: any) {
  */
 function _patchConsoleWith(log: any) {
   console.log = (msg, ...params) => {
-    log(levels.INFO, util.format(msg, ...params))
+    log(levels.INFO, format(msg, ...params))
   }
   console.debug = (msg, ...params) => {
-    log(levels.DEBUG, util.format(msg, ...params))
+    log(levels.DEBUG, format(msg, ...params))
   }
   console.info = (msg, ...params) => {
-    log(levels.INFO, util.format(msg, ...params))
+    log(levels.INFO, format(msg, ...params))
   }
   console.warn = (msg, ...params) => {
-    log(levels.WARN, util.format(msg, ...params))
+    log(levels.WARN, format(msg, ...params))
   }
   console.error = (msg, ...params) => {
-    log(levels.ERROR, util.format(msg, ...params))
+    log(levels.ERROR, format(msg, ...params))
   }
   console.trace = (msg, ...params) => {
-    log(levels.TRACE, util.format(msg, ...params))
+    log(levels.TRACE, format(msg, ...params))
   }
   ;(console as any).fatal = (msg: any, ...params: any[]) => {
-    log(levels.FATAL, util.format(msg, ...params))
+    log(levels.FATAL, format(msg, ...params))
   }
 }
 
