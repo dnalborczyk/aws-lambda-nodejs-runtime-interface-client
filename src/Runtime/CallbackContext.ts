@@ -27,7 +27,7 @@ import { IRuntimeClient } from '../RuntimeClient/index'
  *   first call to any function will be successful. All subsequent calls are
  *   a no-op.
  */
-export const build = function (
+export function build(
   client: IRuntimeClient,
   id: string,
   scheduleNext: () => void,

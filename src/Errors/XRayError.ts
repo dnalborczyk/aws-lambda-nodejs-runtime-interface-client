@@ -33,7 +33,7 @@ import { isError } from './index'
  *       ]
  *  }
  */
-export const toFormatted = (err: unknown): string => {
+export function toFormatted(err: unknown): string {
   if (!isError(err)) {
     return ''
   }

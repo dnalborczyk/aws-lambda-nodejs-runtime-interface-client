@@ -62,7 +62,7 @@ export function toRuntimeResponse(error: unknown): RuntimeErrorResponse {
  * Format an error with the expected properties.
  * For compatability, the error string always starts with a tab.
  */
-export const toFormatted = (error: unknown): string => {
+export function toFormatted(error: unknown): string {
   try {
     return '\t' + JSON.stringify(error, (_k, v) => _withEnumerableProperties(v))
   } catch (err) {

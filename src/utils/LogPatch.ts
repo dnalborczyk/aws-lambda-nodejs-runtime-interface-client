@@ -24,7 +24,7 @@ const _currentRequestId = {
 /**
  * Write logs to stdout.
  */
-const _logToStdout = (level: any, message: any) => {
+function _logToStdout(level: any, message: any) {
   const time = new Date().toISOString()
   const requestId = _currentRequestId.get()
   let line = `${time}\t${requestId}\t${level.name}\t${message}`
@@ -43,7 +43,7 @@ const _logToStdout = (level: any, message: any) => {
  * The second 4 bytes are the length of the message.
  * The remaining bytes ar ethe message itself. Byte order is big-endian.
  */
-const _logToFd = function (logTarget: any) {
+function _logToFd(logTarget: any) {
   const typeAndLength = Buffer.alloc(8)
   typeAndLength.writeUInt32BE(0xa55a0001, 0)
   typeAndLength.writeUInt32BE(0x00000000, 4)
@@ -87,7 +87,7 @@ function _patchConsoleWith(log: any) {
   }
 }
 
-const _patchConsole = (): void => {
+function _patchConsole(): void {
   if (
     process.env['_LAMBDA_TELEMETRY_LOG_FD'] != null &&
     process.env['_LAMBDA_TELEMETRY_LOG_FD'] != undefined
