@@ -1,9 +1,9 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { IncomingHttpHeaders } from 'http'
+import type { IncomingHttpHeaders } from 'http'
 import BeforeExitListener from '../../../src/Runtime/BeforeExitListener'
-import { IRuntimeClient } from '../../../src/RuntimeClient/index'
-import {
+import type { IRuntimeClient } from '../../../src/RuntimeClient/index'
+import type {
   InvocationResponse,
   CallbackFunction,
   ICallbackContext,

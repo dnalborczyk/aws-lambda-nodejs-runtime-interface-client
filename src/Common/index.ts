@@ -4,7 +4,7 @@
  * This module defines types, enums and interfaces common to the other modules.
  */
 
-import { IncomingHttpHeaders } from 'http'
+import type { IncomingHttpHeaders } from 'http'
 
 export interface InvocationResponse {
   bodyJson: string

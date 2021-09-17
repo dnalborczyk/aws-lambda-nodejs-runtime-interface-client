@@ -7,7 +7,7 @@
  */
 
 import { strict as assert } from 'assert'
-import { IncomingHttpHeaders } from 'http'
+import type { IncomingHttpHeaders } from 'http'
 import {
   ICallbackContext,
   IHeaderData,
