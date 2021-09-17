@@ -21,7 +21,7 @@ module.exports = class StdoutReporter extends reporters.Base {
   private _report: string
   private _indents: number
 
-  public constructor(runner: Runner, options: MochaOptions) {
+  constructor(runner: Runner, options: MochaOptions) {
     super(runner, options)
 
     this._alreadyWritten = false
