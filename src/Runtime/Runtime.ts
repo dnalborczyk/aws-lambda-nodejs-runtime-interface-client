@@ -11,6 +11,8 @@ import * as CallbackContext from './CallbackContext'
 import InvokeContext from './InvokeContext'
 import { IRuntimeClient } from '../RuntimeClient/index'
 
+const { parse } = JSON
+
 export default class Runtime {
   client: IRuntimeClient
   errorCallbacks: IErrorCallbacks
@@ -73,7 +75,7 @@ export default class Runtime {
       this.#setDefaultExitListener(invokeContext.invokeId)
 
       const result = this.handler(
-        JSON.parse(bodyJson),
+        parse(bodyJson),
         invokeContext.attachEnvironmentData(callbackContext),
         callback,
       )

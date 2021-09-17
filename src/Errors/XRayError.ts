@@ -2,6 +2,8 @@
 
 import { isError } from './index'
 
+const { stringify } = JSON
+
 /**
  * prepare an exception blob for sending to AWS X-Ray
  * transform an Error, or Error-like, into an exception parseable by X-Ray's service.
@@ -39,7 +41,7 @@ export function toFormatted(err: unknown): string {
   }
 
   try {
-    return JSON.stringify(new XRayFormattedCause(err))
+    return stringify(new XRayFormattedCause(err))
   } catch (error) {
     return ''
   }

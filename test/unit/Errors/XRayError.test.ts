@@ -3,6 +3,8 @@
 import 'should'
 import * as XRayError from '../../../src/Errors/XRayError'
 
+const { parse } = JSON
+
 describe('Formatted Error Logging', () => {
   it('should fall back to a minimal error format when an exception occurs', () => {
     const error = new Error('custom message')
@@ -12,7 +14,7 @@ describe('Formatted Error Logging', () => {
                       at exports.handler (/var/function/node_modules/event_invoke.js:5:242)
                       at (/var/function/test_exec.js:4:123)`
 
-    const loggedXRayError = JSON.parse(XRayError.toFormatted(error).trim())
+    const loggedXRayError = parse(XRayError.toFormatted(error).trim())
     loggedXRayError.should.have.property('working_directory')
     loggedXRayError.should.have.property('exceptions')
     loggedXRayError.should.have

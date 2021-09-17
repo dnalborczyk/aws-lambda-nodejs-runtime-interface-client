@@ -16,6 +16,8 @@ import {
 } from '../Common/index'
 import LogPatch from '../utils/LogPatch'
 
+const { parse } = JSON
+
 const setCurrentRequestId = LogPatch.setCurrentRequestId
 
 export default class InvokeContext {
@@ -149,7 +151,7 @@ export default class InvokeContext {
 function _parseJson(jsonString?: string, name?: string): string | undefined {
   if (jsonString !== undefined) {
     try {
-      return JSON.parse(jsonString)
+      return parse(jsonString)
     } catch (err) {
       throw new Error(`Cannot parse ${name} as json: ${err.toString()}`)
     }

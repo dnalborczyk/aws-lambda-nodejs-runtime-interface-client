@@ -3,6 +3,8 @@
 import 'should'
 import * as Errors from '../../../src/Errors/index'
 
+const { parse } = JSON
+
 class CircularError extends Error {
   backlink: Error
 
@@ -33,7 +35,7 @@ describe('Formatting CircularError Logging', () => {
     const error = new CircularError('custom message')
     error.backlink = error
 
-    const loggedError = JSON.parse(Errors.toFormatted(error).trim())
+    const loggedError = parse(Errors.toFormatted(error).trim())
     loggedError.should.have.property('errorType', 'CircularError')
     loggedError.should.have.property('errorMessage', 'custom message')
     loggedError.should.have.property('trace')
@@ -45,7 +47,7 @@ describe('Formatting Error Logging', () => {
   it('should fall back to an extended error format when an exception occurs', () => {
     const error = new ExtendedError('custom message')
 
-    const loggedError = JSON.parse(Errors.toFormatted(error).trim())
+    const loggedError = parse(Errors.toFormatted(error).trim())
     loggedError.should.have.property('errorType', 'ExtendedError')
     loggedError.should.have.property('errorMessage', 'custom message')
     loggedError.should.have.property('stack', ['ExtendedErrorStack'])

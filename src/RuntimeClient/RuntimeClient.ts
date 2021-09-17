@@ -17,6 +17,8 @@ import { InvocationResponse } from '../Common/index'
 import * as Errors from '../Errors/index'
 import * as XRayError from '../Errors/XRayError'
 
+const { stringify } = JSON
+
 const ERROR_TYPE_HEADER = 'Lambda-Runtime-Function-Error-Type'
 const XRAY_ERROR_CAUSE = 'Lambda-Runtime-Function-XRay-Error-Cause'
 
@@ -233,7 +235,7 @@ export default class RuntimeClient implements IRuntimeClient {
  */
 function _trySerializeResponse(body: unknown): string {
   try {
-    return JSON.stringify(body === undefined ? null : body)
+    return stringify(body === undefined ? null : body)
   } catch (err) {
     throw new Error('Unable to stringify response body')
   }

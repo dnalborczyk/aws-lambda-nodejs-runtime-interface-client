@@ -10,6 +10,8 @@ import type {
 } from '../../../src/Common/index'
 import { build as buildCallBackContext } from '../../../src/Runtime/CallbackContext'
 
+const { stringify } = JSON
+
 require('should')
 
 class RuntimeClientStub implements IRuntimeClient {
@@ -35,7 +37,7 @@ class RuntimeClientStub implements IRuntimeClient {
     callback: () => void,
   ): void {
     this.lastId = id
-    this.lastResponse = JSON.stringify(response)
+    this.lastResponse = stringify(response)
     callback()
   }
 }

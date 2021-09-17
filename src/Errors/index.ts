@@ -8,6 +8,8 @@
 
 import { types } from 'util'
 
+const { stringify } = JSON
+
 export function isError(obj: any): obj is Error {
   return (
     obj &&
@@ -64,9 +66,9 @@ export function toRuntimeResponse(error: unknown): RuntimeErrorResponse {
  */
 export function toFormatted(error: unknown): string {
   try {
-    return '\t' + JSON.stringify(error, (_k, v) => _withEnumerableProperties(v))
+    return '\t' + stringify(error, (_k, v) => _withEnumerableProperties(v))
   } catch (err) {
-    return '\t' + JSON.stringify(toRuntimeResponse(error))
+    return '\t' + stringify(toRuntimeResponse(error))
   }
 }
 

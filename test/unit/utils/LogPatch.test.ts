@@ -3,9 +3,10 @@
 import 'should'
 import LogPatch from '../../../src/utils/LogPatch'
 import * as Errors from '../../../src/Errors/index'
-
 import { captureStream, consoleSnapshot } from './LoggingGlobals'
 import FakeTelemetryTarget from './FakeTelemetryTarget'
+
+const { parse } = JSON
 
 describe('Apply the default console log patch', () => {
   const restoreConsole = consoleSnapshot()
@@ -97,7 +98,7 @@ describe('Apply the default console log patch', () => {
     console.error('message', Errors.toFormatted(expected))
 
     const errorString = capturedStdout.captured().split('\t')[4]
-    const recoveredError = JSON.parse(errorString)
+    const recoveredError = parse(errorString)
 
     recoveredError.should.have.property('errorType', expected.name)
     recoveredError.should.have.property('errorMessage', expected.message)
@@ -216,7 +217,7 @@ describe('The multiline log patch', () => {
     console.error('message', Errors.toFormatted(expected))
 
     const errorString = telemetryTarget.readLine().split('\t')[4]
-    const recoveredError = JSON.parse(errorString)
+    const recoveredError = parse(errorString)
 
     recoveredError.should.have.property('errorType', expected.name)
     recoveredError.should.have.property('errorMessage', expected.message)
