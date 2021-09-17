@@ -15,18 +15,18 @@ import type { IRuntimeClient } from '../RuntimeClient/index'
 const { parse } = JSON
 
 export default class Runtime {
-  client: IRuntimeClient
-  errorCallbacks: IErrorCallbacks
-  handler: HandlerFunction
+  #client: IRuntimeClient
+  #errorCallbacks: IErrorCallbacks
+  #handler: HandlerFunction
 
   constructor(
     client: IRuntimeClient,
     handler: HandlerFunction,
     errorCallbacks: IErrorCallbacks,
   ) {
-    this.client = client
-    this.handler = handler
-    this.errorCallbacks = errorCallbacks
+    this.#client = client
+    this.#errorCallbacks = errorCallbacks
+    this.#handler = handler
   }
 
   /**
@@ -51,7 +51,7 @@ export default class Runtime {
         (err) => {
           // eslint-disable-next-line no-console
           console.log(`Unexpected Top Level Error: ${err.toString()}`)
-          this.errorCallbacks.uncaughtException(err)
+          this.#errorCallbacks.uncaughtException(err)
         },
       )
     })
@@ -61,12 +61,12 @@ export default class Runtime {
    * Wait for the next invocation, process it, and schedule the next iteration.
    */
   async handleOnce(): Promise<void> {
-    const { bodyJson, headers } = await this.client.nextInvocation()
+    const { bodyJson, headers } = await this.#client.nextInvocation()
     const invokeContext = new InvokeContext(headers)
     invokeContext.updateLoggingContext()
 
     const [callback, callbackContext] = CallbackContext.build(
-      this.client,
+      this.#client,
       invokeContext.invokeId,
       this.scheduleIteration.bind(this),
     )
@@ -75,7 +75,7 @@ export default class Runtime {
       this.#setErrorCallbacks(invokeContext.invokeId)
       this.#setDefaultExitListener(invokeContext.invokeId)
 
-      const result = this.handler(
+      const result = this.#handler(
         parse(bodyJson),
         invokeContext.attachEnvironmentData(callbackContext),
         callback,
@@ -96,13 +96,14 @@ export default class Runtime {
    * @param {String} invokeId
    */
   #setErrorCallbacks(invokeId: string): void {
-    this.errorCallbacks.uncaughtException = (error: Error): void => {
-      this.client.postInvocationError(error, invokeId, () => {
+    this.#errorCallbacks.uncaughtException = (error: Error): void => {
+      this.#client.postInvocationError(error, invokeId, () => {
         exit(129)
       })
     }
-    this.errorCallbacks.unhandledRejection = (error: Error): void => {
-      this.client.postInvocationError(error, invokeId, () => {
+
+    this.#errorCallbacks.unhandledRejection = (error: Error): void => {
+      this.#client.postInvocationError(error, invokeId, () => {
         exit(128)
       })
     }
@@ -115,7 +116,7 @@ export default class Runtime {
    */
   #setDefaultExitListener(invokeId: string): void {
     BeforeExitListener.set(() => {
-      this.client.postInvocationResponse(null, invokeId, () =>
+      this.#client.postInvocationResponse(null, invokeId, () =>
         this.scheduleIteration(),
       )
     })

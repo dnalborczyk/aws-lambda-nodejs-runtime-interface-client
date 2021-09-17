@@ -60,24 +60,24 @@ function userAgent(): string {
  * API.
  */
 export default class RuntimeClient implements IRuntimeClient {
-  agent: Agent
-  http: HttpModule
-  userAgent: string
-  hostname: string
-  port: number
+  #agent: Agent
+  #hostname: string
+  #http: HttpModule
+  #port: number
+  #userAgent: string
 
   // TODO FIXME http module is only a parameter for testing, should be removed
   constructor(hostnamePort: string, httpClient: HttpModule) {
-    this.http = httpClient
-    this.userAgent = userAgent()
-
-    const [hostname, port] = hostnamePort.split(':')
-    this.hostname = hostname
-    this.port = parseInt(port, 10)
-    this.agent = new Agent({
+    this.#agent = new Agent({
       keepAlive: true,
       maxSockets: 1,
     })
+    this.#http = httpClient
+    this.#userAgent = userAgent()
+
+    const [hostname, port] = hostnamePort.split(':')
+    this.#hostname = hostname
+    this.#port = parseInt(port, 10)
   }
 
   /**
@@ -149,17 +149,18 @@ export default class RuntimeClient implements IRuntimeClient {
    */
   async nextInvocation(): Promise<InvocationResponse> {
     const options = {
-      hostname: this.hostname,
-      port: this.port,
-      path: '/2018-06-01/runtime/invocation/next',
-      method: 'GET',
-      agent: this.agent,
+      agent: this.#agent,
       headers: {
-        'User-Agent': this.userAgent,
+        'User-Agent': this.#userAgent,
       },
+      hostname: this.#hostname,
+      method: 'GET',
+      path: '/2018-06-01/runtime/invocation/next',
+      port: this.#port,
     }
+
     return new Promise((resolve, reject) => {
-      const request = this.http.request(options, (response) => {
+      const request = this.#http.request(options, (response) => {
         let data = ''
         response
           .setEncoding('utf-8')
@@ -199,10 +200,7 @@ export default class RuntimeClient implements IRuntimeClient {
   ): void {
     const bodyString = _trySerializeResponse(body)
     const options: RequestOptions = {
-      hostname: this.hostname,
-      port: this.port,
-      path: path,
-      method: 'POST',
+      agent: this.#agent,
       headers: assign(
         {
           'Content-Type': 'application/json',
@@ -210,9 +208,13 @@ export default class RuntimeClient implements IRuntimeClient {
         },
         headers ?? {},
       ),
-      agent: this.agent,
+      hostname: this.#hostname,
+      method: 'POST',
+      path: path,
+      port: this.#port,
     }
-    const request = this.http.request(options, (response) => {
+
+    const request = this.#http.request(options, (response) => {
       response
         .on('end', () => {
           callback()
