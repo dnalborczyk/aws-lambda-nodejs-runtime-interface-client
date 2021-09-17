@@ -1,5 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
+import process from 'process'
 import { MochaOptions, Runner, reporters } from 'mocha'
 
 const {

@@ -1,6 +1,7 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
 import 'should'
+import process, { env } from 'process'
 import LogPatch from '../../../src/utils/LogPatch'
 import * as Errors from '../../../src/Errors/index'
 import { captureStream, consoleSnapshot } from './LoggingGlobals'
@@ -123,7 +124,7 @@ describe('The multiline log patch', () => {
   })
 
   it('should clear the telemetry env var', () => {
-    should.not.exist(process.env['_LAMBDA_TELEMETRY_LOG_FD'])
+    should.not.exist(env['_LAMBDA_TELEMETRY_LOG_FD'])
   })
 
   it('should write a line', () => {

@@ -1,9 +1,10 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import * as os from 'os'
-import * as fs from 'fs'
-import * as path from 'path'
 import * as assert from 'assert'
+import { closeSync, mkdtempSync, openSync, readSync } from 'fs'
+import { tmpdir } from 'os'
+import { join } from 'path'
+import { env } from 'process'
 
 const _LOG_IDENTIFIER = Buffer.from('a55a0001', 'hex')
 
@@ -22,11 +23,11 @@ export default class FakeTelemetryTarget {
   }
 
   openFile(): void {
-    const tempTelemetryDir = fs.mkdtempSync(
-      path.join(os.tmpdir(), 'LambdyBYOLNodeJs12xTelemetry-'),
+    const tempTelemetryDir = mkdtempSync(
+      join(tmpdir(), 'LambdyBYOLNodeJs12xTelemetry-'),
     )
-    this.writeTarget = fs.openSync(path.join(tempTelemetryDir, 'log'), 'as+')
-    this.readTarget = fs.openSync(path.join(tempTelemetryDir, 'log'), 'rs+')
+    this.writeTarget = openSync(join(tempTelemetryDir, 'log'), 'as+')
+    this.readTarget = openSync(join(tempTelemetryDir, 'log'), 'rs+')
     console.log(
       'Generate new telemetry file',
       tempTelemetryDir,
@@ -37,14 +38,14 @@ export default class FakeTelemetryTarget {
 
   closeFile(): void {
     console.log(`Close telemetry filedescriptor ${this.readTarget}`)
-    fs.closeSync(this.readTarget)
-    fs.closeSync(this.writeTarget)
+    closeSync(this.readTarget)
+    closeSync(this.writeTarget)
     this.readTarget = 0
     this.writeTarget = 0
   }
 
   updateEnv(): void {
-    process.env['_LAMBDA_TELEMETRY_LOG_FD'] = this.writeTarget.toString()
+    env['_LAMBDA_TELEMETRY_LOG_FD'] = this.writeTarget.toString()
   }
 
   /**
@@ -57,7 +58,7 @@ export default class FakeTelemetryTarget {
   readLine(): string {
     const readLength = () => {
       const logPrefix = Buffer.alloc(8)
-      const actualReadBytes = fs.readSync(
+      const actualReadBytes = readSync(
         this.readTarget,
         logPrefix,
         0,
@@ -81,7 +82,7 @@ export default class FakeTelemetryTarget {
 
     const lineLength = readLength()
     const lineBytes = Buffer.alloc(lineLength)
-    const actualLineSize = fs.readSync(
+    const actualLineSize = readSync(
       this.readTarget,
       lineBytes,
       0,

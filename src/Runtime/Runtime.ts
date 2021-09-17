@@ -5,6 +5,7 @@
  * bootstrap's execution flow.
  */
 
+import { exit } from 'process'
 import BeforeExitListener from './BeforeExitListener'
 import type { HandlerFunction, IErrorCallbacks } from '../Common/index'
 import * as CallbackContext from './CallbackContext'
@@ -97,12 +98,12 @@ export default class Runtime {
   #setErrorCallbacks(invokeId: string): void {
     this.errorCallbacks.uncaughtException = (error: Error): void => {
       this.client.postInvocationError(error, invokeId, () => {
-        process.exit(129)
+        exit(129)
       })
     }
     this.errorCallbacks.unhandledRejection = (error: Error): void => {
       this.client.postInvocationError(error, invokeId, () => {
-        process.exit(128)
+        exit(128)
       })
     }
   }

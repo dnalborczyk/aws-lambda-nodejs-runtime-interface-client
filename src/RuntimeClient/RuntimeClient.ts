@@ -12,6 +12,7 @@ import {
   ClientRequest,
   OutgoingHttpHeaders,
 } from 'http'
+import { version } from 'process'
 import type { URL } from 'url'
 import type { InvocationResponse } from '../Common/index'
 import * as Errors from '../Errors/index'
@@ -49,9 +50,9 @@ export interface IRuntimeClient {
 
 function userAgent(): string {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { version } = require('../../package.json')
+  const { version: pkgVersion } = require('../../package.json')
 
-  return `aws-lambda-nodejs/${process.version}-${version}`
+  return `aws-lambda-nodejs/${version}-${pkgVersion}`
 }
 
 /**

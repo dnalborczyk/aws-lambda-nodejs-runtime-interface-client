@@ -1,5 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
+import { cwd } from 'process'
 import { isError } from './index'
 
 const { stringify } = JSON
@@ -65,7 +66,7 @@ class XRayFormattedCause {
   paths: string[]
 
   constructor(err: Error) {
-    this.working_directory = process.cwd() // eslint-disable-line
+    this.working_directory = cwd() // eslint-disable-line
 
     const stack: XRayStackEntry[] = []
     if (err.stack) {

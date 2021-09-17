@@ -3,6 +3,7 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
 import { writeSync } from 'fs'
+import process, { env } from 'process'
 import { format } from 'util'
 
 const { freeze } = Object
@@ -91,12 +92,12 @@ function _patchConsoleWith(log: any) {
 
 function _patchConsole(): void {
   if (
-    process.env['_LAMBDA_TELEMETRY_LOG_FD'] != null &&
-    process.env['_LAMBDA_TELEMETRY_LOG_FD'] != undefined
+    env['_LAMBDA_TELEMETRY_LOG_FD'] != null &&
+    env['_LAMBDA_TELEMETRY_LOG_FD'] != undefined
   ) {
-    const logFd = parseInt(process.env['_LAMBDA_TELEMETRY_LOG_FD'])
+    const logFd = parseInt(env['_LAMBDA_TELEMETRY_LOG_FD'])
     _patchConsoleWith(_logToFd(logFd))
-    delete process.env['_LAMBDA_TELEMETRY_LOG_FD']
+    delete env['_LAMBDA_TELEMETRY_LOG_FD']
   } else {
     _patchConsoleWith(_logToStdout)
   }

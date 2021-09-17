@@ -7,6 +7,7 @@
  */
 
 import http from 'http'
+import process, { env, exit } from 'process'
 import { HandlerFunction } from './Common/index'
 import * as Errors from './Errors/index'
 import RuntimeClient from './RuntimeClient'
@@ -18,17 +19,17 @@ import * as UserFunction from './utils/UserFunction'
 LogPatch.patchConsole()
 
 export function run(appRoot: string, handler: string): void {
-  if (!process.env.AWS_LAMBDA_RUNTIME_API) {
+  if (!env.AWS_LAMBDA_RUNTIME_API) {
     throw new Error('Missing Runtime API Server configuration.')
   }
-  const client = new RuntimeClient(process.env.AWS_LAMBDA_RUNTIME_API, http)
+  const client = new RuntimeClient(env.AWS_LAMBDA_RUNTIME_API, http)
 
   const errorCallbacks = {
     uncaughtException: (error: Error) => {
-      client.postInitError(error, () => process.exit(129))
+      client.postInitError(error, () => exit(129))
     },
     unhandledRejection: (error: Error) => {
-      client.postInitError(error, () => process.exit(128))
+      client.postInitError(error, () => exit(128))
     },
   }
 
