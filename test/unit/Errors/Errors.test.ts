@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-require('should')
+import 'should'
 import * as Errors from '../../../src/Errors/index'
 
 class CircularError extends Error {

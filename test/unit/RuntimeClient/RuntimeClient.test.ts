@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-require('should')
+import 'should'
 import RuntimeClient from '../../../src/RuntimeClient/index'
 import * as runtimeErrors from '../../../src/Errors/index'
 import { StubHttp } from '../utils/StubHttp'

@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-require('should')
+import 'should'
 import * as XRayError from '../../../src/Errors/XRayError'
 
 describe('Formatted Error Logging', () => {

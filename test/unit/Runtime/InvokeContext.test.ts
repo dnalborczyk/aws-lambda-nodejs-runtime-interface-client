@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-require('should')
+import 'should'
 import utilModule from 'util'
 
 const sleep = utilModule.promisify(setTimeout)

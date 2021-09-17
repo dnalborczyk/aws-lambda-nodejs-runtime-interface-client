@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-require('should')
+import 'should'
 
 describe('Invoke the BeforeExitListener', () => {
   it('should not fail if a listerner has not been set', async () => {
