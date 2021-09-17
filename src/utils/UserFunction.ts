@@ -74,14 +74,14 @@ function _tryRequire(appRoot: string, moduleRoot: string, module: string): any {
   const lambdaStylePath = resolve(appRoot, moduleRoot, module)
   if (_canLoadAsFile(lambdaStylePath)) {
     return require(lambdaStylePath)
-  } else {
-    // Why not just require(module)?
-    // Because require() is relative to __dirname, not process.cwd()
-    const nodeStylePath = require.resolve(module, {
-      paths: [appRoot, moduleRoot],
-    })
-    return require(nodeStylePath)
   }
+  // Why not just require(module)?
+  // Because require() is relative to __dirname, not process.cwd()
+  const nodeStylePath = require.resolve(module, {
+    paths: [appRoot, moduleRoot],
+  })
+
+  return require(nodeStylePath)
 }
 
 /**

@@ -44,12 +44,12 @@ export function toRuntimeResponse(error: unknown): RuntimeErrorResponse {
         errorMessage: error.message,
         trace: error.stack.split('\n') || [],
       }
-    } else {
-      return {
-        errorType: typeof error,
-        errorMessage: (error as any).toString(),
-        trace: [],
-      }
+    }
+
+    return {
+      errorType: typeof error,
+      errorMessage: (error as any).toString(),
+      trace: [],
     }
   } catch (_err) {
     return {
@@ -94,9 +94,9 @@ function _withEnumerableProperties(error: any) {
       ret.stack = extendedError.stack.split('\n')
     }
     return ret
-  } else {
-    return error
   }
+
+  return error
 }
 
 export class ExtendedError extends Error {

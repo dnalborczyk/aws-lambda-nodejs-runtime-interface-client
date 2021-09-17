@@ -39,9 +39,9 @@ export function build(
 function _homogeneousError(err: ErrorStringOrUndefined) {
   if (err instanceof Error) {
     return err
-  } else {
-    return new Error(err)
   }
+
+  return new Error(err)
 }
 
 /**
