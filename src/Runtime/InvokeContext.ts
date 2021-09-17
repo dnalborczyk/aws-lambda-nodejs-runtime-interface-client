@@ -122,7 +122,7 @@ export default class InvokeContext {
       ),
       invokedFunctionArn: this.#getHeaderValue(INVOKE_HEADER.ARN),
       awsRequestId: this.#getHeaderValue(INVOKE_HEADER.AWSRequestId),
-      getRemainingTimeInMillis: function () {
+      getRemainingTimeInMillis() {
         return deadline - Date.now()
       },
     }
