@@ -2,12 +2,12 @@
 
 import { IncomingHttpHeaders } from 'http'
 import BeforeExitListener from '../../../src/Runtime/BeforeExitListener'
-import { IRuntimeClient } from '../../../src/RuntimeClient'
+import { IRuntimeClient } from '../../../src/RuntimeClient/index'
 import {
   InvocationResponse,
   CallbackFunction,
   ICallbackContext,
-} from '../../../src/Common'
+} from '../../../src/Common/index'
 import { build as buildCallBackContext } from '../../../src/Runtime/CallbackContext'
 
 require('should')

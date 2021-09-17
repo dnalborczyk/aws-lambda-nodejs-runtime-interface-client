@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { isError } from '.'
+import { isError } from './index'
 
 /**
  * prepare an exception blob for sending to AWS X-Ray

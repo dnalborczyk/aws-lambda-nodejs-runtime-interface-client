@@ -8,13 +8,13 @@
 
 import path from 'path'
 import fs from 'fs'
-import { HandlerFunction } from '../Common'
+import { HandlerFunction } from '../Common/index'
 import {
   HandlerNotFound,
   MalformedHandlerName,
   ImportModuleError,
   UserCodeSyntaxError,
-} from '../Errors'
+} from '../Errors/index'
 
 const FUNCTION_EXPR = /^([^.]*)\.(.*)$/
 const RELATIVE_PATH_SUBSTRING = '..'

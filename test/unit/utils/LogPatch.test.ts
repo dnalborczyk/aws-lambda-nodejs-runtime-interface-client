@@ -2,7 +2,7 @@
 
 import should from 'should'
 import LogPatch from '../../../src/utils/LogPatch'
-import * as Errors from '../../../src/Errors'
+import * as Errors from '../../../src/Errors/index'
 
 import { captureStream, consoleSnapshot } from './LoggingGlobals'
 import FakeTelemetryTarget from './FakeTelemetryTarget'

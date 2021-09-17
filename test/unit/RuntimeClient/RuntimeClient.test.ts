@@ -1,8 +1,8 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
 require('should')
-import RuntimeClient from '../../../src/RuntimeClient'
-import * as runtimeErrors from '../../../src/Errors'
+import RuntimeClient from '../../../src/RuntimeClient/index'
+import * as runtimeErrors from '../../../src/Errors/index'
 import { StubHttp } from '../utils/StubHttp'
 
 class EvilError extends Error {

@@ -7,9 +7,9 @@ import {
   ICallbackContext,
   ErrorStringOrUndefined,
   CallbackFunction,
-} from '../Common'
-import * as Errors from '../Errors'
-import { IRuntimeClient } from '../RuntimeClient'
+} from '../Common/index'
+import * as Errors from '../Errors/index'
+import { IRuntimeClient } from '../RuntimeClient/index'
 
 /**
  * Construct the base-context object which includes the required flags and

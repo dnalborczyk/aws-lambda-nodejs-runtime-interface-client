@@ -7,10 +7,10 @@
  */
 
 import http from 'http'
-import { HandlerFunction } from './Common'
-import * as Errors from './Errors'
+import { HandlerFunction } from './Common/index'
+import * as Errors from './Errors/index'
 import RuntimeClient from './RuntimeClient'
-import Runtime from './Runtime'
+import Runtime from './Runtime/index'
 import BeforeExitListener from './Runtime/BeforeExitListener'
 import LogPatch from './utils/LogPatch'
 import * as UserFunction from './utils/UserFunction'

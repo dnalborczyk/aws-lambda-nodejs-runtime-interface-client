@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { IBeforeExitListener } from '../Common'
+import { IBeforeExitListener } from '../Common/index'
 
 /**
  * The runtime has a single beforeExit function which is stored in the global

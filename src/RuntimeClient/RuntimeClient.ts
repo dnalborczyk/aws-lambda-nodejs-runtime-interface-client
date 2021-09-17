@@ -13,8 +13,8 @@ import {
   OutgoingHttpHeaders,
 } from 'http'
 import { URL } from 'url'
-import { InvocationResponse } from '../Common'
-import * as Errors from '../Errors'
+import { InvocationResponse } from '../Common/index'
+import * as Errors from '../Errors/index'
 import * as XRayError from '../Errors/XRayError'
 
 const ERROR_TYPE_HEADER = 'Lambda-Runtime-Function-Error-Type'

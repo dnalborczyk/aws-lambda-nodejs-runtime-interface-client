@@ -13,7 +13,7 @@ import {
   IHeaderData,
   IEnvironmentData,
   INVOKE_HEADER,
-} from '../Common'
+} from '../Common/index'
 import LogPatch from '../utils/LogPatch'
 
 const setCurrentRequestId = LogPatch.setCurrentRequestId

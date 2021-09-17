@@ -6,10 +6,10 @@
  */
 
 import BeforeExitListener from './BeforeExitListener'
-import { HandlerFunction, IErrorCallbacks } from '../Common'
+import { HandlerFunction, IErrorCallbacks } from '../Common/index'
 import * as CallbackContext from './CallbackContext'
 import InvokeContext from './InvokeContext'
-import { IRuntimeClient } from '../RuntimeClient'
+import { IRuntimeClient } from '../RuntimeClient/index'
 
 export default class Runtime {
   client: IRuntimeClient
