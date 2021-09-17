@@ -93,7 +93,7 @@ export default class RuntimeClient implements IRuntimeClient {
     id: string,
     callback: () => void,
   ): void {
-    this._post(
+    this.#post(
       `/2018-06-01/runtime/invocation/${id}/response`,
       response,
       {},
@@ -109,7 +109,7 @@ export default class RuntimeClient implements IRuntimeClient {
    */
   postInitError(error: unknown, callback: () => void): void {
     const response = Errors.toRuntimeResponse(error)
-    this._post(
+    this.#post(
       `/2018-06-01/runtime/init/error`,
       response,
       { [ERROR_TYPE_HEADER]: response.errorType },
@@ -129,7 +129,7 @@ export default class RuntimeClient implements IRuntimeClient {
     const response = Errors.toRuntimeResponse(error)
     const xrayString = XRayError.toFormatted(error)
 
-    this._post(
+    this.#post(
       `/2018-06-01/runtime/invocation/${id}/error`,
       response,
       {
@@ -190,7 +190,7 @@ export default class RuntimeClient implements IRuntimeClient {
    * @param {function()} callback
    *   The callback to run after the POST response ends
    */
-  _post(
+  #post(
     path: string,
     body: unknown,
     headers: OutgoingHttpHeaders,
