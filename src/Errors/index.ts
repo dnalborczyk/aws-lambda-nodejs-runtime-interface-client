@@ -42,7 +42,7 @@ export function toRuntimeResponse(error: unknown): RuntimeErrorResponse {
       return {
         errorType: error.name,
         errorMessage: error.message,
-        trace: error.stack.split('\n') || [],
+        trace: error.stack.split('\n'),
       }
     }
 
