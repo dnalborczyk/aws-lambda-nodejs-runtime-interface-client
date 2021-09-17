@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { isError } from ".";
+import { isError } from '.'
 
 /**
  * prepare an exception blob for sending to AWS X-Ray
@@ -35,65 +35,65 @@ import { isError } from ".";
  */
 export const toFormatted = (err: unknown): string => {
   if (!isError(err)) {
-    return "";
+    return ''
   }
 
   try {
-    return JSON.stringify(new XRayFormattedCause(err));
+    return JSON.stringify(new XRayFormattedCause(err))
   } catch (error) {
-    return "";
+    return ''
   }
-};
+}
 
 interface XRayStackEntry {
-  path: string;
-  line: number;
-  label: string;
+  path: string
+  line: number
+  label: string
 }
 
 interface XRayError {
-  type: string;
-  message: string;
-  stack: XRayStackEntry[];
+  type: string
+  message: string
+  stack: XRayStackEntry[]
 }
 
 class XRayFormattedCause {
-  working_directory: string;
-  exceptions: XRayError[];
-  paths: string[];
+  working_directory: string
+  exceptions: XRayError[]
+  paths: string[]
 
   constructor(err: Error) {
-    this.working_directory = process.cwd(); // eslint-disable-line
+    this.working_directory = process.cwd() // eslint-disable-line
 
-    const stack: XRayStackEntry[] = [];
+    const stack: XRayStackEntry[] = []
     if (err.stack) {
-      const stackLines = err.stack.split("\n");
-      stackLines.shift();
+      const stackLines = err.stack.split('\n')
+      stackLines.shift()
 
       stackLines.forEach((stackLine) => {
-        let line = stackLine.trim().replace(/\(|\)/g, "");
-        line = line.substring(line.indexOf(" ") + 1);
+        let line = stackLine.trim().replace(/\(|\)/g, '')
+        line = line.substring(line.indexOf(' ') + 1)
 
         const label =
-          line.lastIndexOf(" ") >= 0
-            ? line.slice(0, line.lastIndexOf(" "))
-            : null;
+          line.lastIndexOf(' ') >= 0
+            ? line.slice(0, line.lastIndexOf(' '))
+            : null
 
         const path =
           label == undefined || label == null || label.length === 0
             ? line
-            : line.slice(line.lastIndexOf(" ") + 1);
+            : line.slice(line.lastIndexOf(' ') + 1)
 
-        const pathParts = path.split(":");
+        const pathParts = path.split(':')
 
         const entry = {
           path: pathParts[0],
           line: parseInt(pathParts[1]),
-          label: label || "anonymous",
-        };
+          label: label || 'anonymous',
+        }
 
-        stack.push(entry);
-      });
+        stack.push(entry)
+      })
     }
 
     this.exceptions = [
@@ -102,12 +102,12 @@ class XRayFormattedCause {
         message: err.message,
         stack: stack,
       },
-    ];
+    ]
 
-    const paths = new Set<string>();
+    const paths = new Set<string>()
     stack.forEach((entry) => {
-      paths.add(entry.path);
-    });
-    this.paths = Array.from(paths);
+      paths.add(entry.path)
+    })
+    this.paths = Array.from(paths)
   }
 }

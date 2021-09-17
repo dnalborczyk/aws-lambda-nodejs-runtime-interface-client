@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     OS_DISTRIBUTION: alpine
-    NPX_BINARY_LOCATION: "/usr/local/bin/npx"
+    NPX_BINARY_LOCATION: '/usr/local/bin/npx'
 batch:
   build-matrix:
     static:
@@ -15,10 +15,10 @@ batch:
       env:
         variables:
           DISTRO_VERSION:
-            - "3.12"
+            - '3.12'
           RUNTIME_VERSION:
-            - "12"
-            - "14"
+            - '12'
+            - '14'
 phases:
   pre_build:
     commands:

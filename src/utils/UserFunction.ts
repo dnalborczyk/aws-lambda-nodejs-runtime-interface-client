@@ -6,18 +6,18 @@
  * in a handler string.
  */
 
-import path from "path";
-import fs from "fs";
-import { HandlerFunction } from "../Common";
+import path from 'path'
+import fs from 'fs'
+import { HandlerFunction } from '../Common'
 import {
   HandlerNotFound,
   MalformedHandlerName,
   ImportModuleError,
   UserCodeSyntaxError,
-} from "../Errors";
+} from '../Errors'
 
-const FUNCTION_EXPR = /^([^.]*)\.(.*)$/;
-const RELATIVE_PATH_SUBSTRING = "..";
+const FUNCTION_EXPR = /^([^.]*)\.(.*)$/
+const RELATIVE_PATH_SUBSTRING = '..'
 
 /**
  * Break the full handler string into two pieces, the module root and the actual
@@ -26,12 +26,12 @@ const RELATIVE_PATH_SUBSTRING = "..";
  * ['./somepath/something', 'module.nestedobj.handler']
  */
 function _moduleRootAndHandler(fullHandlerString: string): [string, string] {
-  const handlerString = path.basename(fullHandlerString);
+  const handlerString = path.basename(fullHandlerString)
   const moduleRoot = fullHandlerString.substring(
     0,
-    fullHandlerString.indexOf(handlerString)
-  );
-  return [moduleRoot, handlerString];
+    fullHandlerString.indexOf(handlerString),
+  )
+  return [moduleRoot, handlerString]
 }
 
 /**
@@ -39,20 +39,20 @@ function _moduleRootAndHandler(fullHandlerString: string): [string, string] {
  * the handler function.
  */
 function _splitHandlerString(handler: string): [string, string] {
-  const match = handler.match(FUNCTION_EXPR);
+  const match = handler.match(FUNCTION_EXPR)
   if (!match || match.length != 3) {
-    throw new MalformedHandlerName("Bad handler");
+    throw new MalformedHandlerName('Bad handler')
   }
-  return [match[1], match[2]]; // [module, function-path]
+  return [match[1], match[2]] // [module, function-path]
 }
 
 /**
  * Resolve the user's handler function from the module.
  */
 function _resolveHandler(object: any, nestedProperty: string): any {
-  return nestedProperty.split(".").reduce((nested, key) => {
-    return nested && nested[key];
-  }, object);
+  return nestedProperty.split('.').reduce((nested, key) => {
+    return nested && nested[key]
+  }, object)
 }
 
 /**
@@ -62,7 +62,7 @@ function _resolveHandler(object: any, nestedProperty: string): any {
  * @return bool
  */
 function _canLoadAsFile(modulePath: string): boolean {
-  return fs.existsSync(modulePath) || fs.existsSync(modulePath + ".js");
+  return fs.existsSync(modulePath) || fs.existsSync(modulePath + '.js')
 }
 
 /**
@@ -71,16 +71,16 @@ function _canLoadAsFile(modulePath: string): boolean {
  * then falls back to the more general require().
  */
 function _tryRequire(appRoot: string, moduleRoot: string, module: string): any {
-  const lambdaStylePath = path.resolve(appRoot, moduleRoot, module);
+  const lambdaStylePath = path.resolve(appRoot, moduleRoot, module)
   if (_canLoadAsFile(lambdaStylePath)) {
-    return require(lambdaStylePath);
+    return require(lambdaStylePath)
   } else {
     // Why not just require(module)?
     // Because require() is relative to __dirname, not process.cwd()
     const nodeStylePath = require.resolve(module, {
       paths: [appRoot, moduleRoot],
-    });
-    return require(nodeStylePath);
+    })
+    return require(nodeStylePath)
   }
 }
 
@@ -93,17 +93,17 @@ function _tryRequire(appRoot: string, moduleRoot: string, module: string): any {
 function _loadUserApp(
   appRoot: string,
   moduleRoot: string,
-  module: string
+  module: string,
 ): any {
   try {
-    return _tryRequire(appRoot, moduleRoot, module);
+    return _tryRequire(appRoot, moduleRoot, module)
   } catch (e) {
     if (e instanceof SyntaxError) {
-      throw new UserCodeSyntaxError(<any>e);
-    } else if (e.code !== undefined && e.code === "MODULE_NOT_FOUND") {
-      throw new ImportModuleError(e);
+      throw new UserCodeSyntaxError(<any>e)
+    } else if (e.code !== undefined && e.code === 'MODULE_NOT_FOUND') {
+      throw new ImportModuleError(e)
     } else {
-      throw e;
+      throw e
     }
   }
 }
@@ -111,8 +111,8 @@ function _loadUserApp(
 function _throwIfInvalidHandler(fullHandlerString: string): void {
   if (fullHandlerString.includes(RELATIVE_PATH_SUBSTRING)) {
     throw new MalformedHandlerName(
-      `'${fullHandlerString}' is not a valid handler name. Use absolute paths when specifying root directories in handler names.`
-    );
+      `'${fullHandlerString}' is not a valid handler name. Use absolute paths when specifying root directories in handler names.`,
+    )
   }
 }
 
@@ -137,26 +137,26 @@ function _throwIfInvalidHandler(fullHandlerString: string): void {
  */
 export const load = function (
   appRoot: string,
-  fullHandlerString: string
+  fullHandlerString: string,
 ): HandlerFunction {
-  _throwIfInvalidHandler(fullHandlerString);
+  _throwIfInvalidHandler(fullHandlerString)
 
   const [moduleRoot, moduleAndHandler] =
-    _moduleRootAndHandler(fullHandlerString);
-  const [module, handlerPath] = _splitHandlerString(moduleAndHandler);
+    _moduleRootAndHandler(fullHandlerString)
+  const [module, handlerPath] = _splitHandlerString(moduleAndHandler)
 
-  const userApp = _loadUserApp(appRoot, moduleRoot, module);
-  const handlerFunc = _resolveHandler(userApp, handlerPath);
+  const userApp = _loadUserApp(appRoot, moduleRoot, module)
+  const handlerFunc = _resolveHandler(userApp, handlerPath)
 
   if (!handlerFunc) {
     throw new HandlerNotFound(
-      `${fullHandlerString} is undefined or not exported`
-    );
+      `${fullHandlerString} is undefined or not exported`,
+    )
   }
 
-  if (typeof handlerFunc !== "function") {
-    throw new HandlerNotFound(`${fullHandlerString} is not a function`);
+  if (typeof handlerFunc !== 'function') {
+    throw new HandlerNotFound(`${fullHandlerString} is not a function`)
   }
 
-  return handlerFunc;
-};
+  return handlerFunc
+}

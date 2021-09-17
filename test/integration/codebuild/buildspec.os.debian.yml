@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     OS_DISTRIBUTION: debian
-    NPX_BINARY_LOCATION: "/usr/local/bin/npx"
+    NPX_BINARY_LOCATION: '/usr/local/bin/npx'
 batch:
   build-matrix:
     static:
@@ -15,11 +15,11 @@ batch:
       env:
         variables:
           DISTRO_VERSION:
-            - "buster"
+            - 'buster'
           RUNTIME_VERSION:
-            - "10"
-            - "12"
-            - "14"
+            - '10'
+            - '12'
+            - '14'
 phases:
   pre_build:
     commands:

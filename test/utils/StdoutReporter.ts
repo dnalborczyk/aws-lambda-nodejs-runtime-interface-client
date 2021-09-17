@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { MochaOptions, Runner, reporters } from "mocha";
+import { MochaOptions, Runner, reporters } from 'mocha'
 
 const {
   EVENT_SUITE_BEGIN,
@@ -9,7 +9,7 @@ const {
   EVENT_RUN_END,
   EVENT_TEST_PASS,
   EVENT_TEST_FAIL,
-} = Runner.constants;
+} = Runner.constants
 
 /**
  * Custom reporter does not depend on any of the console.* functions, which
@@ -17,72 +17,72 @@ const {
  * patch.
  */
 module.exports = class StdoutReporter extends reporters.Base {
-  private _alreadyWritten: boolean;
-  private _report: string;
-  private _indents: number;
+  private _alreadyWritten: boolean
+  private _report: string
+  private _indents: number
 
   public constructor(runner: Runner, options: MochaOptions) {
-    super(runner, options);
+    super(runner, options)
 
-    this._alreadyWritten = false;
-    this._report = "";
-    this._indents = 0;
-    const stats = runner.stats;
+    this._alreadyWritten = false
+    this._report = ''
+    this._indents = 0
+    const stats = runner.stats
 
     runner
       .once(EVENT_RUN_BEGIN, () => {})
       .on(EVENT_SUITE_BEGIN, (suite) => {
-        this.log(suite.title);
-        this.increaseIndent();
+        this.log(suite.title)
+        this.increaseIndent()
       })
       .on(EVENT_SUITE_END, () => {
-        this.decreaseIndent();
+        this.decreaseIndent()
       })
       .on(EVENT_TEST_PASS, (test) => {
-        this.log(`✓ ${test.title}`);
+        this.log(`✓ ${test.title}`)
       })
       .on(EVENT_TEST_FAIL, (test, err) => {
-        this.log(`✗ ${test.title}`);
-        this.increaseIndent();
-        err.stack.split("\n").forEach((msg) => this.log(msg));
-        this.decreaseIndent();
+        this.log(`✗ ${test.title}`)
+        this.increaseIndent()
+        err.stack.split('\n').forEach((msg) => this.log(msg))
+        this.decreaseIndent()
       })
       .once(EVENT_RUN_END, () => {
         this.log(
-          "Results " +
+          'Results ' +
             stats.passes +
-            " passed out of " +
+            ' passed out of ' +
             (stats.passes + stats.failures) +
-            " total tests"
-        );
-        this.dumpReport();
-      });
+            ' total tests',
+        )
+        this.dumpReport()
+      })
 
     // This is hella nice if Mocha crashes for some reason
     // (which turns out is easy to do if you fool around with console.log)
-    process.on("exit", () => this.dumpReport());
+    process.on('exit', () => this.dumpReport())
   }
 
   indent() {
-    return Array(this._indents).join("  ");
+    return Array(this._indents).join('  ')
   }
 
   increaseIndent() {
-    this._indents++;
+    this._indents++
   }
 
   decreaseIndent() {
-    this._indents--;
+    this._indents--
   }
 
   log(line) {
-    this._report += `${this.indent()}${line}\n`;
+    this._report += `${this.indent()}${line}\n`
   }
 
   dumpReport() {
     if (!this._alreadyWritten) {
-      process.stdout.write(this._report);
-      this._alreadyWritten = true;
+      process.stdout.write(this._report)
+      this._alreadyWritten = true
     }
   }
-};
+}

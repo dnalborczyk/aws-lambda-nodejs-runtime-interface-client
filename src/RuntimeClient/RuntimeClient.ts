@@ -11,44 +11,44 @@ import {
   IncomingMessage,
   ClientRequest,
   OutgoingHttpHeaders,
-} from "http";
-import { URL } from "url";
-import { InvocationResponse } from "../Common";
-import * as Errors from "../Errors";
-import * as XRayError from "../Errors/XRayError";
+} from 'http'
+import { URL } from 'url'
+import { InvocationResponse } from '../Common'
+import * as Errors from '../Errors'
+import * as XRayError from '../Errors/XRayError'
 
-const ERROR_TYPE_HEADER = "Lambda-Runtime-Function-Error-Type";
-const XRAY_ERROR_CAUSE = "Lambda-Runtime-Function-XRay-Error-Cause";
+const ERROR_TYPE_HEADER = 'Lambda-Runtime-Function-Error-Type'
+const XRAY_ERROR_CAUSE = 'Lambda-Runtime-Function-XRay-Error-Cause'
 
 interface HttpModule {
-  Agent: typeof Agent;
+  Agent: typeof Agent
   request(
     options: RequestOptions | string | URL,
-    callback?: (res: IncomingMessage) => void
-  ): ClientRequest;
+    callback?: (res: IncomingMessage) => void,
+  ): ClientRequest
 }
 
 export interface IRuntimeClient {
-  nextInvocation: () => Promise<InvocationResponse>;
+  nextInvocation: () => Promise<InvocationResponse>
 
   postInvocationError: (
     error: unknown,
     id: string,
-    callback: () => void
-  ) => void;
+    callback: () => void,
+  ) => void
 
   postInvocationResponse: (
     response: unknown,
     id: string,
-    callback: () => void
-  ) => void;
+    callback: () => void,
+  ) => void
 }
 
 function userAgent(): string {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const version = require("../../package.json").version;
+  const version = require('../../package.json').version
 
-  return `aws-lambda-nodejs/${process.version}-${version}`;
+  return `aws-lambda-nodejs/${process.version}-${version}`
 }
 
 /**
@@ -56,24 +56,24 @@ function userAgent(): string {
  * API.
  */
 export default class RuntimeClient implements IRuntimeClient {
-  agent: Agent;
-  http: HttpModule;
-  userAgent: string;
-  hostname: string;
-  port: number;
+  agent: Agent
+  http: HttpModule
+  userAgent: string
+  hostname: string
+  port: number
 
   // TODO FIXME http module is only a parameter for testing, should be removed
   constructor(hostnamePort: string, httpClient: HttpModule) {
-    this.http = httpClient;
-    this.userAgent = userAgent();
+    this.http = httpClient
+    this.userAgent = userAgent()
 
-    const [hostname, port] = hostnamePort.split(":");
-    this.hostname = hostname;
-    this.port = parseInt(port, 10);
+    const [hostname, port] = hostnamePort.split(':')
+    this.hostname = hostname
+    this.port = parseInt(port, 10)
     this.agent = new Agent({
       keepAlive: true,
       maxSockets: 1,
-    });
+    })
   }
 
   /**
@@ -88,14 +88,14 @@ export default class RuntimeClient implements IRuntimeClient {
   postInvocationResponse(
     response: unknown,
     id: string,
-    callback: () => void
+    callback: () => void,
   ): void {
     this._post(
       `/2018-06-01/runtime/invocation/${id}/response`,
       response,
       {},
-      callback
-    );
+      callback,
+    )
   }
 
   /**
@@ -105,13 +105,13 @@ export default class RuntimeClient implements IRuntimeClient {
    *   The callback to run after the POST response ends
    */
   postInitError(error: unknown, callback: () => void): void {
-    const response = Errors.toRuntimeResponse(error);
+    const response = Errors.toRuntimeResponse(error)
     this._post(
       `/2018-06-01/runtime/init/error`,
       response,
       { [ERROR_TYPE_HEADER]: response.errorType },
-      callback
-    );
+      callback,
+    )
   }
 
   /**
@@ -123,8 +123,8 @@ export default class RuntimeClient implements IRuntimeClient {
    *   The callback to run after the POST response ends
    */
   postInvocationError(error: unknown, id: string, callback: () => void): void {
-    const response = Errors.toRuntimeResponse(error);
-    const xrayString = XRayError.toFormatted(error);
+    const response = Errors.toRuntimeResponse(error)
+    const xrayString = XRayError.toFormatted(error)
 
     this._post(
       `/2018-06-01/runtime/invocation/${id}/error`,
@@ -133,8 +133,8 @@ export default class RuntimeClient implements IRuntimeClient {
         [ERROR_TYPE_HEADER]: response.errorType,
         [XRAY_ERROR_CAUSE]: xrayString,
       },
-      callback
-    );
+      callback,
+    )
   }
 
   /**
@@ -147,34 +147,34 @@ export default class RuntimeClient implements IRuntimeClient {
     const options = {
       hostname: this.hostname,
       port: this.port,
-      path: "/2018-06-01/runtime/invocation/next",
-      method: "GET",
+      path: '/2018-06-01/runtime/invocation/next',
+      method: 'GET',
       agent: this.agent,
       headers: {
-        "User-Agent": this.userAgent,
+        'User-Agent': this.userAgent,
       },
-    };
+    }
     return new Promise((resolve, reject) => {
       const request = this.http.request(options, (response) => {
-        let data = "";
+        let data = ''
         response
-          .setEncoding("utf-8")
-          .on("data", (chunk) => {
-            data += chunk;
+          .setEncoding('utf-8')
+          .on('data', (chunk) => {
+            data += chunk
           })
-          .on("end", () => {
+          .on('end', () => {
             resolve({
               bodyJson: data,
               headers: response.headers,
-            });
-          });
-      });
+            })
+          })
+      })
       request
-        .on("error", (e) => {
-          reject(e);
+        .on('error', (e) => {
+          reject(e)
         })
-        .end();
-    });
+        .end()
+    })
   }
 
   /**
@@ -191,39 +191,39 @@ export default class RuntimeClient implements IRuntimeClient {
     path: string,
     body: unknown,
     headers: OutgoingHttpHeaders,
-    callback: () => void
+    callback: () => void,
   ): void {
-    const bodyString = _trySerializeResponse(body);
+    const bodyString = _trySerializeResponse(body)
     const options: RequestOptions = {
       hostname: this.hostname,
       port: this.port,
       path: path,
-      method: "POST",
+      method: 'POST',
       headers: Object.assign(
         {
-          "Content-Type": "application/json",
-          "Content-Length": Buffer.from(bodyString).length,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.from(bodyString).length,
         },
-        headers || {}
+        headers || {},
       ),
       agent: this.agent,
-    };
+    }
     const request = this.http.request(options, (response) => {
       response
-        .on("end", () => {
-          callback();
+        .on('end', () => {
+          callback()
         })
-        .on("error", (e) => {
-          throw e;
+        .on('error', (e) => {
+          throw e
         })
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        .on("data", () => {});
-    });
+        .on('data', () => {})
+    })
     request
-      .on("error", (e) => {
-        throw e;
+      .on('error', (e) => {
+        throw e
       })
-      .end(bodyString, "utf-8");
+      .end(bodyString, 'utf-8')
   }
 }
 
@@ -233,8 +233,8 @@ export default class RuntimeClient implements IRuntimeClient {
  */
 function _trySerializeResponse(body: unknown): string {
   try {
-    return JSON.stringify(body === undefined ? null : body);
+    return JSON.stringify(body === undefined ? null : body)
   } catch (err) {
-    throw new Error("Unable to stringify response body");
+    throw new Error('Unable to stringify response body')
   }
 }

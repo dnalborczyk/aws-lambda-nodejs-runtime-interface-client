@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { IBeforeExitListener } from "../Common";
+import { IBeforeExitListener } from '../Common'
 
 /**
  * The runtime has a single beforeExit function which is stored in the global
@@ -12,36 +12,36 @@ import { IBeforeExitListener } from "../Common";
  */
 
 // define a named symbol for the handler function
-const LISTENER_SYMBOL = Symbol.for("aws.lambda.beforeExit");
+const LISTENER_SYMBOL = Symbol.for('aws.lambda.beforeExit')
 
 const NO_OP_LISTENER = () => {
   /* NoOp */
-};
+}
 
 // export a setter
 class BeforeExitListener implements IBeforeExitListener {
   constructor() {
-    this.reset();
+    this.reset()
   }
 
   /**
    * Call the listener function with no arguments.
    */
-  invoke = (): void => (global as any)[LISTENER_SYMBOL]();
+  invoke = (): void => (global as any)[LISTENER_SYMBOL]()
 
   /**
    * Reset the listener to a no-op function.
    */
   reset = (): (() => void) =>
-    ((global as any)[LISTENER_SYMBOL] = NO_OP_LISTENER);
+    ((global as any)[LISTENER_SYMBOL] = NO_OP_LISTENER)
 
   /**
    * Set the listener to the provided function.
    */
   set = (listener: () => void): (() => void) =>
-    ((global as any)[LISTENER_SYMBOL] = listener);
+    ((global as any)[LISTENER_SYMBOL] = listener)
 }
 
-const beforeExitListener = new BeforeExitListener();
+const beforeExitListener = new BeforeExitListener()
 
-export default beforeExitListener;
+export default beforeExitListener

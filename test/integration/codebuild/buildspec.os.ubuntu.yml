@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     OS_DISTRIBUTION: ubuntu
-    NPX_BINARY_LOCATION: "/usr/bin/npx"
+    NPX_BINARY_LOCATION: '/usr/bin/npx'
 batch:
   build-matrix:
     static:
@@ -15,13 +15,13 @@ batch:
       env:
         variables:
           DISTRO_VERSION:
-            - "16.04"
-            - "18.04"
-            - "20.04"
+            - '16.04'
+            - '18.04'
+            - '20.04'
           RUNTIME_VERSION:
-            - "10"
-            - "12"
-            - "14"
+            - '10'
+            - '12'
+            - '14'
 phases:
   pre_build:
     commands:

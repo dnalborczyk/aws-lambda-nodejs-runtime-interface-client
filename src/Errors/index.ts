@@ -6,7 +6,7 @@
  * Defines custom error types throwable by the runtime.
  */
 
-import util from "util";
+import util from 'util'
 
 export function isError(obj: any): obj is Error {
   return (
@@ -14,16 +14,16 @@ export function isError(obj: any): obj is Error {
     obj.name &&
     obj.message &&
     obj.stack &&
-    typeof obj.name === "string" &&
-    typeof obj.message === "string" &&
-    typeof obj.stack === "string"
-  );
+    typeof obj.name === 'string' &&
+    typeof obj.message === 'string' &&
+    typeof obj.stack === 'string'
+  )
 }
 
 interface RuntimeErrorResponse {
-  errorType: string;
-  errorMessage: string;
-  trace: string[];
+  errorType: string
+  errorMessage: string
+  trace: string[]
 }
 
 /**
@@ -34,27 +34,27 @@ export function toRuntimeResponse(error: unknown): RuntimeErrorResponse {
   try {
     if (util.types.isNativeError(error) || isError(error)) {
       if (!error.stack) {
-        throw new Error("Error stack is missing.");
+        throw new Error('Error stack is missing.')
       }
       return {
         errorType: error.name,
         errorMessage: error.message,
-        trace: error.stack.split("\n") || [],
-      };
+        trace: error.stack.split('\n') || [],
+      }
     } else {
       return {
         errorType: typeof error,
         errorMessage: (error as any).toString(),
         trace: [],
-      };
+      }
     }
   } catch (_err) {
     return {
-      errorType: "handled",
+      errorType: 'handled',
       errorMessage:
-        "callback called with Error argument, but there was a problem while retrieving one or more of its message, name, and stack",
+        'callback called with Error argument, but there was a problem while retrieving one or more of its message, name, and stack',
       trace: [],
-    };
+    }
   }
 }
 
@@ -64,13 +64,11 @@ export function toRuntimeResponse(error: unknown): RuntimeErrorResponse {
  */
 export const toFormatted = (error: unknown): string => {
   try {
-    return (
-      "\t" + JSON.stringify(error, (_k, v) => _withEnumerableProperties(v))
-    );
+    return '\t' + JSON.stringify(error, (_k, v) => _withEnumerableProperties(v))
   } catch (err) {
-    return "\t" + JSON.stringify(toRuntimeResponse(error));
+    return '\t' + JSON.stringify(toRuntimeResponse(error))
   }
-};
+}
 
 /**
  * Error name, message, code, and stack are all members of the superclass, which
@@ -80,33 +78,33 @@ export const toFormatted = (error: unknown): string => {
  */
 function _withEnumerableProperties(error: any) {
   if (error instanceof Error) {
-    const extendedError: ExtendedError = <ExtendedError>(<any>error);
+    const extendedError: ExtendedError = <ExtendedError>(<any>error)
     const ret: any = Object.assign(
       {
         errorType: extendedError.name,
         errorMessage: extendedError.message,
         code: extendedError.code,
       },
-      extendedError
-    );
-    if (typeof extendedError.stack == "string") {
-      ret.stack = extendedError.stack.split("\n");
+      extendedError,
+    )
+    if (typeof extendedError.stack == 'string') {
+      ret.stack = extendedError.stack.split('\n')
     }
-    return ret;
+    return ret
   } else {
-    return error;
+    return error
   }
 }
 
 export class ExtendedError extends Error {
-  code?: number;
-  custom?: string;
-  reason?: string;
-  promise?: Promise<any>;
+  code?: number
+  custom?: string
+  reason?: string
+  promise?: Promise<any>
 
   constructor(reason?: string) {
-    super(reason); // 'Error' breaks prototype chain here
-    Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
+    super(reason) // 'Error' breaks prototype chain here
+    Object.setPrototypeOf(this, new.target.prototype) // restore prototype chain
   }
 }
 
@@ -116,9 +114,9 @@ export class MalformedHandlerName extends ExtendedError {}
 export class UserCodeSyntaxError extends ExtendedError {}
 export class UnhandledPromiseRejection extends ExtendedError {
   constructor(reason?: string, promise?: Promise<any>) {
-    super(reason);
-    this.reason = reason;
-    this.promise = promise;
+    super(reason)
+    this.reason = reason
+    this.promise = promise
   }
 }
 
@@ -128,8 +126,8 @@ const errorClasses = [
   MalformedHandlerName,
   UserCodeSyntaxError,
   UnhandledPromiseRejection,
-];
+]
 
 errorClasses.forEach((e) => {
-  e.prototype.name = `Runtime.${e.name}`;
-});
+  e.prototype.name = `Runtime.${e.name}`
+})

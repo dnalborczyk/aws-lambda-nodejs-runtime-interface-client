@@ -6,51 +6,51 @@
  * listeners and loads the user's code.
  */
 
-import http from "http";
-import { HandlerFunction } from "./Common";
-import * as Errors from "./Errors";
-import RuntimeClient from "./RuntimeClient";
-import Runtime from "./Runtime";
-import BeforeExitListener from "./Runtime/BeforeExitListener";
-import LogPatch from "./utils/LogPatch";
-import * as UserFunction from "./utils/UserFunction";
+import http from 'http'
+import { HandlerFunction } from './Common'
+import * as Errors from './Errors'
+import RuntimeClient from './RuntimeClient'
+import Runtime from './Runtime'
+import BeforeExitListener from './Runtime/BeforeExitListener'
+import LogPatch from './utils/LogPatch'
+import * as UserFunction from './utils/UserFunction'
 
-LogPatch.patchConsole();
+LogPatch.patchConsole()
 
 export function run(appRoot: string, handler: string): void {
   if (!process.env.AWS_LAMBDA_RUNTIME_API) {
-    throw new Error("Missing Runtime API Server configuration.");
+    throw new Error('Missing Runtime API Server configuration.')
   }
-  const client = new RuntimeClient(process.env.AWS_LAMBDA_RUNTIME_API, http);
+  const client = new RuntimeClient(process.env.AWS_LAMBDA_RUNTIME_API, http)
 
   const errorCallbacks = {
     uncaughtException: (error: Error) => {
-      client.postInitError(error, () => process.exit(129));
+      client.postInitError(error, () => process.exit(129))
     },
     unhandledRejection: (error: Error) => {
-      client.postInitError(error, () => process.exit(128));
+      client.postInitError(error, () => process.exit(128))
     },
-  };
+  }
 
-  process.on("uncaughtException", (error) => {
-    console.error("Uncaught Exception", Errors.toFormatted(error));
-    errorCallbacks.uncaughtException(error);
-  });
+  process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception', Errors.toFormatted(error))
+    errorCallbacks.uncaughtException(error)
+  })
 
-  process.on("unhandledRejection", (reason, promise) => {
+  process.on('unhandledRejection', (reason, promise) => {
     const error = new Errors.UnhandledPromiseRejection(
       reason?.toString(),
-      promise
-    );
-    console.error("Unhandled Promise Rejection", Errors.toFormatted(error));
-    errorCallbacks.unhandledRejection(error);
-  });
+      promise,
+    )
+    console.error('Unhandled Promise Rejection', Errors.toFormatted(error))
+    errorCallbacks.unhandledRejection(error)
+  })
 
-  BeforeExitListener.reset();
-  process.on("beforeExit", BeforeExitListener.invoke);
+  BeforeExitListener.reset()
+  process.on('beforeExit', BeforeExitListener.invoke)
 
-  const handlerFunc = UserFunction.load(appRoot, handler) as HandlerFunction;
-  const runtime = new Runtime(client, handlerFunc, errorCallbacks);
+  const handlerFunc = UserFunction.load(appRoot, handler) as HandlerFunction
+  const runtime = new Runtime(client, handlerFunc, errorCallbacks)
 
-  runtime.scheduleIteration();
+  runtime.scheduleIteration()
 }

@@ -6,39 +6,39 @@
  * and for wrapping the Runtime Client object's error and response functions.
  */
 
-import { strict as assert } from "assert";
-import { IncomingHttpHeaders } from "http";
+import { strict as assert } from 'assert'
+import { IncomingHttpHeaders } from 'http'
 import {
   ICallbackContext,
   IHeaderData,
   IEnvironmentData,
   INVOKE_HEADER,
-} from "../Common";
-import LogPatch from "../utils/LogPatch";
+} from '../Common'
+import LogPatch from '../utils/LogPatch'
 
-const setCurrentRequestId = LogPatch.setCurrentRequestId;
+const setCurrentRequestId = LogPatch.setCurrentRequestId
 
 export default class InvokeContext {
-  headers: IncomingHttpHeaders;
+  headers: IncomingHttpHeaders
 
   constructor(headers: IncomingHttpHeaders) {
-    this.headers = _enforceLowercaseKeys(headers);
+    this.headers = _enforceLowercaseKeys(headers)
   }
 
   private getHeaderValue(key: string): string | undefined {
-    const headerVal = this.headers[key];
+    const headerVal = this.headers[key]
 
     switch (typeof headerVal) {
-      case "undefined":
-        return undefined;
-      case "string":
-        return headerVal;
+      case 'undefined':
+        return undefined
+      case 'string':
+        return headerVal
       default:
         if (headerVal.length == 0) {
-          return undefined;
+          return undefined
         }
 
-        return headerVal[0];
+        return headerVal[0]
     }
   }
 
@@ -46,23 +46,23 @@ export default class InvokeContext {
    * The invokeId for this request.
    */
   get invokeId(): string {
-    const id = this.getHeaderValue(INVOKE_HEADER.AWSRequestId);
-    assert.ok(id, "invocation id is missing or invalid");
-    return id;
+    const id = this.getHeaderValue(INVOKE_HEADER.AWSRequestId)
+    assert.ok(id, 'invocation id is missing or invalid')
+    return id
   }
 
   /**
    * The header data for this request.
    */
   get headerData(): IHeaderData {
-    return this._headerData();
+    return this._headerData()
   }
 
   /**
    * Push relevant invoke data into the logging context.
    */
   updateLoggingContext(): void {
-    setCurrentRequestId(this.invokeId);
+    setCurrentRequestId(this.invokeId)
   }
 
   /**
@@ -76,14 +76,14 @@ export default class InvokeContext {
    *   and environment variables.
    */
   attachEnvironmentData(
-    callbackContext: ICallbackContext
+    callbackContext: ICallbackContext,
   ): ICallbackContext & IEnvironmentData & IHeaderData {
-    this._forwardXRay();
+    this._forwardXRay()
     return Object.assign(
       callbackContext,
       this._environmentalData(),
-      this._headerData()
-    );
+      this._headerData(),
+    )
   }
 
   /**
@@ -92,12 +92,12 @@ export default class InvokeContext {
    */
   private _environmentalData(): IEnvironmentData {
     return {
-      functionVersion: process.env["AWS_LAMBDA_FUNCTION_VERSION"],
-      functionName: process.env["AWS_LAMBDA_FUNCTION_NAME"],
-      memoryLimitInMB: process.env["AWS_LAMBDA_FUNCTION_MEMORY_SIZE"],
-      logGroupName: process.env["AWS_LAMBDA_LOG_GROUP_NAME"],
-      logStreamName: process.env["AWS_LAMBDA_LOG_STREAM_NAME"],
-    };
+      functionVersion: process.env['AWS_LAMBDA_FUNCTION_VERSION'],
+      functionName: process.env['AWS_LAMBDA_FUNCTION_NAME'],
+      memoryLimitInMB: process.env['AWS_LAMBDA_FUNCTION_MEMORY_SIZE'],
+      logGroupName: process.env['AWS_LAMBDA_LOG_GROUP_NAME'],
+      logStreamName: process.env['AWS_LAMBDA_LOG_STREAM_NAME'],
+    }
   }
 
   /**
@@ -106,23 +106,23 @@ export default class InvokeContext {
    */
   private _headerData(): IHeaderData {
     const deadline = parseInt(
-      this.getHeaderValue(INVOKE_HEADER.DeadlineMs) || ""
-    );
+      this.getHeaderValue(INVOKE_HEADER.DeadlineMs) || '',
+    )
     return {
       clientContext: _parseJson(
         this.getHeaderValue(INVOKE_HEADER.ClientContext),
-        "ClientContext"
+        'ClientContext',
       ),
       identity: _parseJson(
         this.getHeaderValue(INVOKE_HEADER.CognitoIdentity),
-        "CognitoIdentity"
+        'CognitoIdentity',
       ),
       invokedFunctionArn: this.getHeaderValue(INVOKE_HEADER.ARN),
       awsRequestId: this.getHeaderValue(INVOKE_HEADER.AWSRequestId),
       getRemainingTimeInMillis: function () {
-        return deadline - Date.now();
+        return deadline - Date.now()
       },
-    };
+    }
   }
 
   /**
@@ -130,11 +130,11 @@ export default class InvokeContext {
    */
   private _forwardXRay(): void {
     if (this.getHeaderValue(INVOKE_HEADER.XRayTrace)) {
-      process.env["_X_AMZN_TRACE_ID"] = this.getHeaderValue(
-        INVOKE_HEADER.XRayTrace
-      );
+      process.env['_X_AMZN_TRACE_ID'] = this.getHeaderValue(
+        INVOKE_HEADER.XRayTrace,
+      )
     } else {
-      delete process.env["_X_AMZN_TRACE_ID"];
+      delete process.env['_X_AMZN_TRACE_ID']
     }
   }
 }
@@ -149,12 +149,12 @@ export default class InvokeContext {
 function _parseJson(jsonString?: string, name?: string): string | undefined {
   if (jsonString !== undefined) {
     try {
-      return JSON.parse(jsonString);
+      return JSON.parse(jsonString)
     } catch (err) {
-      throw new Error(`Cannot parse ${name} as json: ${err.toString()}`);
+      throw new Error(`Cannot parse ${name} as json: ${err.toString()}`)
     }
   } else {
-    return undefined;
+    return undefined
   }
 }
 
@@ -162,10 +162,10 @@ function _parseJson(jsonString?: string, name?: string): string | undefined {
  * Construct a copy of an object such that all of its keys are lowercase.
  */
 function _enforceLowercaseKeys(
-  original: IncomingHttpHeaders
+  original: IncomingHttpHeaders,
 ): IncomingHttpHeaders {
   return Object.keys(original).reduce((enforced, originalKey) => {
-    enforced[originalKey.toLowerCase()] = original[originalKey];
-    return enforced;
-  }, {} as IncomingHttpHeaders);
+    enforced[originalKey.toLowerCase()] = original[originalKey]
+    return enforced
+  }, {} as IncomingHttpHeaders)
 }

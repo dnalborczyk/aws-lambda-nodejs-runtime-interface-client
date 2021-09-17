@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import BeforeExitListener from "./BeforeExitListener";
+import BeforeExitListener from './BeforeExitListener'
 import {
   ErrorStringOrUndefinedOrNull,
   ICallbackContext,
   ErrorStringOrUndefined,
   CallbackFunction,
-} from "../Common";
-import * as Errors from "../Errors";
-import { IRuntimeClient } from "../RuntimeClient";
+} from '../Common'
+import * as Errors from '../Errors'
+import { IRuntimeClient } from '../RuntimeClient'
 
 /**
  * Construct the base-context object which includes the required flags and
@@ -30,17 +30,17 @@ import { IRuntimeClient } from "../RuntimeClient";
 export const build = function (
   client: IRuntimeClient,
   id: string,
-  scheduleNext: () => void
+  scheduleNext: () => void,
 ): [CallbackFunction, ICallbackContext] {
-  const [callback, context] = _rawCallbackContext(client, id, scheduleNext);
-  return _wrappedCallbackContext(callback, context);
-};
+  const [callback, context] = _rawCallbackContext(client, id, scheduleNext)
+  return _wrappedCallbackContext(callback, context)
+}
 
 function _homogeneousError(err: ErrorStringOrUndefined) {
   if (err instanceof Error) {
-    return err;
+    return err
   } else {
-    return new Error(err);
+    return new Error(err)
   }
 }
 
@@ -58,72 +58,72 @@ function _homogeneousError(err: ErrorStringOrUndefined) {
 function _rawCallbackContext(
   client: IRuntimeClient,
   id: string,
-  scheduleNext: () => void
+  scheduleNext: () => void,
 ): [CallbackFunction, ICallbackContext] {
   const postError = (err: ErrorStringOrUndefined, callback: () => void) => {
-    const homogeneousError = _homogeneousError(err);
-    console.error("Invoke Error", Errors.toFormatted(homogeneousError));
-    client.postInvocationError(err, id, callback);
-  };
+    const homogeneousError = _homogeneousError(err)
+    console.error('Invoke Error', Errors.toFormatted(homogeneousError))
+    client.postInvocationError(err, id, callback)
+  }
 
   const complete = (result: unknown, callback: () => void) => {
-    client.postInvocationResponse(result, id, callback);
-  };
+    client.postInvocationResponse(result, id, callback)
+  }
 
-  let waitForEmptyEventLoop = true;
+  let waitForEmptyEventLoop = true
 
   const callback = (
     err: ErrorStringOrUndefinedOrNull,
-    result: unknown
+    result: unknown,
   ): void => {
-    BeforeExitListener.reset();
+    BeforeExitListener.reset()
     if (err !== undefined && err !== null) {
-      postError(err, scheduleNext);
+      postError(err, scheduleNext)
     } else {
       complete(result, () => {
         if (!waitForEmptyEventLoop) {
-          scheduleNext();
+          scheduleNext()
         } else {
-          BeforeExitListener.set(scheduleNext);
+          BeforeExitListener.set(scheduleNext)
         }
-      });
+      })
     }
-  };
+  }
 
   const done = (err: ErrorStringOrUndefinedOrNull, result?: unknown) => {
-    BeforeExitListener.reset();
+    BeforeExitListener.reset()
     if (err !== undefined && err !== null) {
-      postError(err, scheduleNext);
+      postError(err, scheduleNext)
     } else {
-      complete(result, scheduleNext);
+      complete(result, scheduleNext)
     }
-  };
+  }
 
   const succeed = (result: unknown) => {
-    done(null, result);
-  };
+    done(null, result)
+  }
 
   const fail = (err: ErrorStringOrUndefinedOrNull) => {
     if (err === undefined || err === null) {
-      done("handled");
+      done('handled')
     } else {
-      done(err);
+      done(err)
     }
-  };
+  }
 
   const callbackContext = {
     get callbackWaitsForEmptyEventLoop(): boolean {
-      return waitForEmptyEventLoop;
+      return waitForEmptyEventLoop
     },
     set callbackWaitsForEmptyEventLoop(value: boolean) {
-      waitForEmptyEventLoop = value;
+      waitForEmptyEventLoop = value
     },
     succeed,
     fail,
     done,
-  };
+  }
 
-  return [callback, callbackContext];
+  return [callback, callbackContext]
 }
 
 /**
@@ -140,23 +140,23 @@ function _rawCallbackContext(
  */
 function _wrappedCallbackContext(
   callback: CallbackFunction,
-  callbackContext: ICallbackContext
+  callbackContext: ICallbackContext,
 ): [CallbackFunction, ICallbackContext] {
-  let finished = false;
+  let finished = false
   // eslint-disable-next-line @typescript-eslint/ban-types
   const onlyAllowFirstCall = function (toWrap: Function) {
     return function (...args: unknown[]) {
       if (!finished) {
         // eslint-disable-next-line prefer-spread
-        toWrap.apply(null, args);
-        finished = true;
+        toWrap.apply(null, args)
+        finished = true
       }
-    };
-  };
+    }
+  }
 
-  callbackContext.succeed = onlyAllowFirstCall(callbackContext.succeed);
-  callbackContext.fail = onlyAllowFirstCall(callbackContext.fail);
-  callbackContext.done = onlyAllowFirstCall(callbackContext.done);
+  callbackContext.succeed = onlyAllowFirstCall(callbackContext.succeed)
+  callbackContext.fail = onlyAllowFirstCall(callbackContext.fail)
+  callbackContext.done = onlyAllowFirstCall(callbackContext.done)
 
-  return [onlyAllowFirstCall(callback), callbackContext];
+  return [onlyAllowFirstCall(callback), callbackContext]
 }
