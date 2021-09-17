@@ -6,8 +6,8 @@
  * in a handler string.
  */
 
-import path from 'path'
-import fs from 'fs'
+import { existsSync } from 'fs'
+import { basename, resolve } from 'path'
 import { HandlerFunction } from '../Common/index'
 import {
   HandlerNotFound,
@@ -26,7 +26,7 @@ const RELATIVE_PATH_SUBSTRING = '..'
  * ['./somepath/something', 'module.nestedobj.handler']
  */
 function _moduleRootAndHandler(fullHandlerString: string): [string, string] {
-  const handlerString = path.basename(fullHandlerString)
+  const handlerString = basename(fullHandlerString)
   const moduleRoot = fullHandlerString.substring(
     0,
     fullHandlerString.indexOf(handlerString),
@@ -62,7 +62,7 @@ function _resolveHandler(object: any, nestedProperty: string): any {
  * @return bool
  */
 function _canLoadAsFile(modulePath: string): boolean {
-  return fs.existsSync(modulePath) || fs.existsSync(modulePath + '.js')
+  return existsSync(modulePath) || existsSync(modulePath + '.js')
 }
 
 /**
@@ -71,7 +71,7 @@ function _canLoadAsFile(modulePath: string): boolean {
  * then falls back to the more general require().
  */
 function _tryRequire(appRoot: string, moduleRoot: string, module: string): any {
-  const lambdaStylePath = path.resolve(appRoot, moduleRoot, module)
+  const lambdaStylePath = resolve(appRoot, moduleRoot, module)
   if (_canLoadAsFile(lambdaStylePath)) {
     return require(lambdaStylePath)
   } else {

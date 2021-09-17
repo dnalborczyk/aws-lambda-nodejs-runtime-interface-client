@@ -6,7 +6,7 @@
  * Defines custom error types throwable by the runtime.
  */
 
-import util from 'util'
+import { types } from 'util'
 
 export function isError(obj: any): obj is Error {
   return (
@@ -32,7 +32,7 @@ interface RuntimeErrorResponse {
  */
 export function toRuntimeResponse(error: unknown): RuntimeErrorResponse {
   try {
-    if (util.types.isNativeError(error) || isError(error)) {
+    if (types.isNativeError(error) || isError(error)) {
       if (!error.stack) {
         throw new Error('Error stack is missing.')
       }
