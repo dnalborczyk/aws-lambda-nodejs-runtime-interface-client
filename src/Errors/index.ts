@@ -9,6 +9,7 @@
 import { types } from 'util'
 
 const { stringify } = JSON
+const { assign, setPrototypeOf } = Object
 
 export function isError(obj: any): obj is Error {
   return (
@@ -81,7 +82,7 @@ export function toFormatted(error: unknown): string {
 function _withEnumerableProperties(error: any) {
   if (error instanceof Error) {
     const extendedError: ExtendedError = <ExtendedError>(<any>error)
-    const ret: any = Object.assign(
+    const ret: any = assign(
       {
         errorType: extendedError.name,
         errorMessage: extendedError.message,
@@ -106,7 +107,7 @@ export class ExtendedError extends Error {
 
   constructor(reason?: string) {
     super(reason) // 'Error' breaks prototype chain here
-    Object.setPrototypeOf(this, new.target.prototype) // restore prototype chain
+    setPrototypeOf(this, new.target.prototype) // restore prototype chain
   }
 }
 

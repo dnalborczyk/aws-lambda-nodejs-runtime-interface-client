@@ -3,11 +3,13 @@
 import { RequestOptions, ClientRequest } from 'http'
 import { URL } from 'url'
 
+const { freeze } = Object
+
 /**
  * Stub request object.
  * Provides no-op definitions of the request functions used by the Runtime Interface Client.
  */
-export const noOpRequest = Object.freeze({
+export const noOpRequest = freeze({
   /* no op, return itself to allow continuations/chaining */
   on: () => noOpRequest,
   /* no op, return itself to allow continuations/chaninig */

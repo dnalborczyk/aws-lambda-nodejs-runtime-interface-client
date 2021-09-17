@@ -17,6 +17,7 @@ import {
 import LogPatch from '../utils/LogPatch'
 
 const { parse } = JSON
+const { assign, keys } = Object
 
 const setCurrentRequestId = LogPatch.setCurrentRequestId
 
@@ -81,7 +82,7 @@ export default class InvokeContext {
     callbackContext: ICallbackContext,
   ): ICallbackContext & IEnvironmentData & IHeaderData {
     this.#forwardXRay()
-    return Object.assign(
+    return assign(
       callbackContext,
       this.#environmentalData(),
       this.#headerData(),
@@ -166,7 +167,7 @@ function _parseJson(jsonString?: string, name?: string): string | undefined {
 function _enforceLowercaseKeys(
   original: IncomingHttpHeaders,
 ): IncomingHttpHeaders {
-  return Object.keys(original).reduce((enforced, originalKey) => {
+  return keys(original).reduce((enforced, originalKey) => {
     enforced[originalKey.toLowerCase()] = original[originalKey]
     return enforced
   }, {} as IncomingHttpHeaders)

@@ -18,6 +18,7 @@ import * as Errors from '../Errors/index'
 import * as XRayError from '../Errors/XRayError'
 
 const { stringify } = JSON
+const { assign } = Object
 
 const ERROR_TYPE_HEADER = 'Lambda-Runtime-Function-Error-Type'
 const XRAY_ERROR_CAUSE = 'Lambda-Runtime-Function-XRay-Error-Cause'
@@ -201,7 +202,7 @@ export default class RuntimeClient implements IRuntimeClient {
       port: this.port,
       path: path,
       method: 'POST',
-      headers: Object.assign(
+      headers: assign(
         {
           'Content-Type': 'application/json',
           'Content-Length': Buffer.from(bodyString).length,

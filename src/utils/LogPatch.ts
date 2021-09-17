@@ -5,7 +5,9 @@
 import * as fs from 'fs'
 import * as util from 'util'
 
-const levels = Object.freeze({
+const { freeze } = Object
+
+const levels = freeze({
   INFO: { name: 'INFO' },
   DEBUG: { name: 'DEBUG' },
   WARN: { name: 'WARN' },
