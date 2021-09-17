@@ -123,14 +123,12 @@ export class UnhandledPromiseRejection extends ExtendedError {
   }
 }
 
-const errorClasses = [
+;[
   ImportModuleError,
   HandlerNotFound,
   MalformedHandlerName,
   UserCodeSyntaxError,
   UnhandledPromiseRejection,
-]
-
-errorClasses.forEach((e) => {
+].forEach((e) => {
   e.prototype.name = `Runtime.${e.name}`
 })

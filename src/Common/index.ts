@@ -6,19 +6,21 @@
 
 import type { IncomingHttpHeaders } from 'http'
 
+const { freeze } = Object
+
 export interface InvocationResponse {
   bodyJson: string
   headers: IncomingHttpHeaders
 }
 
-export enum INVOKE_HEADER {
-  ClientContext = 'lambda-runtime-client-context',
-  CognitoIdentity = 'lambda-runtime-cognito-identity',
-  ARN = 'lambda-runtime-invoked-function-arn',
-  AWSRequestId = 'lambda-runtime-aws-request-id',
-  DeadlineMs = 'lambda-runtime-deadline-ms',
-  XRayTrace = 'lambda-runtime-trace-id',
-}
+export const INVOKE_HEADER = freeze({
+  ClientContext: 'lambda-runtime-client-context',
+  CognitoIdentity: 'lambda-runtime-cognito-identity',
+  ARN: 'lambda-runtime-invoked-function-arn',
+  AWSRequestId: 'lambda-runtime-aws-request-id',
+  DeadlineMs: 'lambda-runtime-deadline-ms',
+  XRayTrace: 'lambda-runtime-trace-id',
+})
 
 export interface IEnvironmentData {
   functionVersion?: string
