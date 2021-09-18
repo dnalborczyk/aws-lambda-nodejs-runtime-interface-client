@@ -14,28 +14,28 @@ export interface InvocationResponse {
 }
 
 export const INVOKE_HEADER = freeze({
-  ClientContext: 'lambda-runtime-client-context',
-  CognitoIdentity: 'lambda-runtime-cognito-identity',
   ARN: 'lambda-runtime-invoked-function-arn',
   AWSRequestId: 'lambda-runtime-aws-request-id',
+  ClientContext: 'lambda-runtime-client-context',
+  CognitoIdentity: 'lambda-runtime-cognito-identity',
   DeadlineMs: 'lambda-runtime-deadline-ms',
   XRayTrace: 'lambda-runtime-trace-id',
 })
 
 export interface IEnvironmentData {
-  functionVersion?: string
   functionName?: string
+  functionVersion?: string
   memoryLimitInMB?: string
   logGroupName?: string
   logStreamName?: string
 }
 
 export interface IHeaderData {
+  awsRequestId?: string
   clientContext?: string
+  getRemainingTimeInMillis: () => number
   identity?: string
   invokedFunctionArn?: string
-  awsRequestId?: string
-  getRemainingTimeInMillis: () => number
 }
 
 export type ErrorStringOrUndefined = Error | string | undefined
@@ -47,9 +47,9 @@ export type ErrorStringOrUndefinedOrNull = ErrorStringOrUndefined | null
  */
 export interface ICallbackContext {
   callbackWaitsForEmptyEventLoop: boolean
-  succeed: (result: unknown) => void
-  fail: (err: ErrorStringOrUndefinedOrNull) => void
   done: (err: ErrorStringOrUndefinedOrNull, result?: unknown) => void
+  fail: (err: ErrorStringOrUndefinedOrNull) => void
+  succeed: (result: unknown) => void
 }
 
 export type CallbackFunction = (
