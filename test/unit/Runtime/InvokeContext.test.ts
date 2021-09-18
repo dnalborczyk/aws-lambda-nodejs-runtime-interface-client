@@ -1,9 +1,8 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import 'should'
-import utilModule from 'util'
+import { promisify } from 'util'
 
-const sleep = utilModule.promisify(setTimeout)
+const sleep = promisify(setTimeout)
 
 import InvokeContext from '../../../src/Runtime/InvokeContext'
 
@@ -17,14 +16,15 @@ describe('Getting remaining invoke time', () => {
     const before = ctx.headerData.getRemainingTimeInMillis()
     await sleep(timeout)
     const after = ctx.headerData.getRemainingTimeInMillis()
-    ;(before - after).should.greaterThanOrEqual(100)
+
+    expect(before - after).toBeGreaterThanOrEqual(100)
   })
 
   it('should return NaN when the deadline is not defined?', async () => {
     const ctx = new InvokeContext({})
     const remaining = ctx.headerData.getRemainingTimeInMillis()
 
-    remaining.should.be.NaN()
+    expect(remaining).toEqual(NaN)
   })
 
   it('should be within range.', () => {
@@ -34,7 +34,7 @@ describe('Getting remaining invoke time', () => {
 
     const remainingTime = ctx.headerData.getRemainingTimeInMillis()
 
-    remainingTime.should.greaterThan(0)
-    remainingTime.should.lessThanOrEqual(1000)
+    expect(remainingTime).toBeGreaterThan(0)
+    expect(remainingTime).toBeLessThanOrEqual(1000)
   })
 })

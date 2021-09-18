@@ -12,8 +12,6 @@ import { build as buildCallBackContext } from '../../../src/Runtime/CallbackCont
 
 const { stringify } = JSON
 
-require('should')
-
 class RuntimeClientStub implements IRuntimeClient {
   lastId?: string
   lastError?: any
@@ -66,28 +64,28 @@ describe('Executing the callback', () => {
   it('should call the client with the correct response.', async () => {
     callback(null, 'response')
 
-    scheduledNextCalled.should.be.false()
-    client.lastResponse?.should.equal('"response"')
-    client.lastId?.should.equal(dummyExecutionId)
-    client.lastError?.should.be.null()
+    expect(scheduledNextCalled).toEqual(false)
+    expect(client.lastResponse).toEqual('"response"')
+    expect(client.lastId).toEqual(dummyExecutionId)
+    expect(client.lastError).toEqual(undefined)
 
     BeforeExitListener.invoke()
-    scheduledNextCalled.should.be.true()
+    expect(scheduledNextCalled).toEqual(true)
   })
 
   it('should not allow the callback to be executed more than once.', async () => {
     callback(null, 'response')
     callback(null, 'Second time')
 
-    client.lastResponse?.should.equal('"response"')
+    expect(client.lastResponse).toEqual('"response"')
   })
 
   it('should immediatelly schedule the next invocation when setting the callbackWaitsForEmptyEventLoop to false.', async () => {
     context.callbackWaitsForEmptyEventLoop = false
     callback(null, 'response when not waiting')
 
-    client.lastResponse?.should.equal('"response when not waiting"')
-    scheduledNextCalled.should.be.true()
+    expect(client.lastResponse).toEqual('"response when not waiting"')
+    expect(scheduledNextCalled).toEqual(true)
   })
 
   it('should call the client with correct error when the error is defined.', () => {
@@ -95,14 +93,14 @@ describe('Executing the callback', () => {
 
     callback(myError)
 
-    client.lastResponse?.should.be.null()
-    client.lastError?.should.equal(myError)
+    expect(client.lastResponse).toEqual(undefined)
+    expect(client.lastError).toEqual(myError)
   })
 
   it('should not wrap an error string into a generic Error.', () => {
     callback('This is an error')
 
-    client.lastResponse?.should.be.null()
-    client.lastError?.should.equal('This is an error')
+    expect(client.lastResponse).toEqual(undefined)
+    expect(client.lastError).toEqual('This is an error')
   })
 })

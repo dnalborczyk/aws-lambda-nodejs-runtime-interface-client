@@ -1,6 +1,5 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import 'should'
 import RuntimeClient from '../../../src/RuntimeClient/index'
 import * as runtimeErrors from '../../../src/Errors/index'
 import { StubHttp } from '../utils/StubHttp'
@@ -33,9 +32,12 @@ describe('building error requests with the RuntimeClient', () => {
         client.postInitError(error, () => {
           // No op
         })
-        stubHttp.lastUsedOptions.should.have
-          .property('headers')
-          .have.property(EXPECTED_ERROR_HEADER, name)
+
+        expect(stubHttp.lastUsedOptions).toMatchObject({
+          headers: {
+            [EXPECTED_ERROR_HEADER]: name,
+          },
+        })
       })
     })
   })

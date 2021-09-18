@@ -13,8 +13,8 @@
     "format:test": "prettier --check \"test/**/*.ts\" --write",
     "lint": "eslint --ext \".ts,.js\" src",
     "test": "npm run test:unit",
-    "test:unit": "ts-mocha test/unit/**/*.test.ts --reporter ./test/utils/StdoutReporter",
-    "test:unit:watch": "ts-mocha test/unit/**/*.test.ts --reporter ./test/utils/StdoutReporter --watch-extensions ts --watch --watch-files src, test/unit/**/*.ts",
+    "test:unit": "jest test/unit/**/*.test.ts",
+    "test:unit:watch": "jest test/unit/**/*.test.ts --watch-extensions ts --watch --watch-files src, test/unit/**/*.ts",
     "test:coverage": "nyc npm run test:unit",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch",
@@ -46,7 +46,7 @@
     "statements": 75
   },
   "devDependencies": {
-    "@types/mocha": "^9.0.0",
+    "@types/jest": "^27.0.1",
     "@types/node": "^15.12.2",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
@@ -54,11 +54,10 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "6.0.0",
-    "mocha": "^9.1.1",
+    "jest": "^27.2.0",
     "nyc": "^15.1.0",
     "prettier": "^2.4.1",
-    "should": "13.2.3",
-    "ts-mocha": "8.0.0",
+    "ts-jest": "^27.0.5",
     "typescript": "^4.4.3"
   }
 }

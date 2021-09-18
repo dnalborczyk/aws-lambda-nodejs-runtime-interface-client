@@ -1,6 +1,5 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import 'should'
 import * as Errors from '../../../src/Errors/index'
 
 const { parse } = JSON
@@ -36,10 +35,11 @@ describe('Formatting CircularError Logging', () => {
     error.backlink = error
 
     const loggedError = parse(Errors.toFormatted(error).trim())
-    loggedError.should.have.property('errorType', 'CircularError')
-    loggedError.should.have.property('errorMessage', 'custom message')
-    loggedError.should.have.property('trace')
-    loggedError.trace.length.should.be.aboveOrEqual(1)
+
+    expect(loggedError).toHaveProperty('errorType', 'CircularError')
+    expect(loggedError).toHaveProperty('errorMessage', 'custom message')
+    expect(loggedError).toHaveProperty('trace')
+    expect(loggedError.trace.length).toBeGreaterThanOrEqual(1)
   })
 })
 
@@ -48,11 +48,12 @@ describe('Formatting Error Logging', () => {
     const error = new ExtendedError('custom message')
 
     const loggedError = parse(Errors.toFormatted(error).trim())
-    loggedError.should.have.property('errorType', 'ExtendedError')
-    loggedError.should.have.property('errorMessage', 'custom message')
-    loggedError.should.have.property('stack', ['ExtendedErrorStack'])
-    loggedError.should.have.property('code', 100)
-    loggedError.should.have.property(
+
+    expect(loggedError).toHaveProperty('errorType', 'ExtendedError')
+    expect(loggedError).toHaveProperty('errorMessage', 'custom message')
+    expect(loggedError).toHaveProperty('stack', ['ExtendedErrorStack'])
+    expect(loggedError).toHaveProperty('code', 100)
+    expect(loggedError).toHaveProperty(
       'customProperty',
       'ExtendedErrorCustomProperty',
     )
@@ -66,10 +67,10 @@ describe('Converting an Error to a Runtime response', () => {
 
     const errorResponse = Errors.toRuntimeResponse(error)
 
-    errorResponse.should.have.property('errorType', 'Runtime.TestError')
-    errorResponse.should.have.property('errorMessage', 'custom message')
-    errorResponse.should.have.property('trace')
-    errorResponse.trace.length.should.be.aboveOrEqual(1)
+    expect(errorResponse).toHaveProperty('errorType', 'Runtime.TestError')
+    expect(errorResponse).toHaveProperty('errorMessage', 'custom message')
+    expect(errorResponse).toHaveProperty('trace')
+    expect(errorResponse.trace.length).toBeGreaterThanOrEqual(1)
   })
 
   it('should return a handled error response when the trace is missing', () => {
@@ -79,22 +80,24 @@ describe('Converting an Error to a Runtime response', () => {
 
     const errorResponse = Errors.toRuntimeResponse(error)
 
-    errorResponse.should.have.property('errorType', 'handled')
-    errorResponse.should.have
-      .property('errorMessage')
-      .with.match(/message, name, and stack/)
-    errorResponse.should.have.property('trace')
-    errorResponse.trace.length.should.be.equal(0)
+    expect(errorResponse).toHaveProperty('errorType', 'handled')
+    expect(errorResponse).toHaveProperty(
+      'errorMessage',
+      expect.stringMatching(/message, name, and stack/),
+    )
+    expect(errorResponse).toHaveProperty('trace')
+    expect(errorResponse).toHaveProperty('errorType', 'handled')
+    expect(errorResponse.trace.length).toEqual(0)
   })
 
   it('should handle strings by setting them as the message and assigning error type to string', () => {
     const error = 'custom message'
     const errorResponse = Errors.toRuntimeResponse(error)
 
-    errorResponse.should.have.property('errorType', 'string')
-    errorResponse.should.have.property('errorMessage', 'custom message')
-    errorResponse.should.have.property('trace')
-    errorResponse.trace.length.should.be.equal(0)
+    expect(errorResponse).toHaveProperty('errorType', 'string')
+    expect(errorResponse).toHaveProperty('errorMessage', 'custom message')
+    expect(errorResponse).toHaveProperty('trace')
+    expect(errorResponse.trace.length).toEqual(0)
   })
 
   it('should handle arbitrary objects by converting them to string', () => {
@@ -104,10 +107,10 @@ describe('Converting an Error to a Runtime response', () => {
 
     const errorResponse = Errors.toRuntimeResponse(error)
 
-    errorResponse.should.have.property('errorType', 'object')
-    errorResponse.should.have.property('errorMessage', '[object Object]')
-    errorResponse.should.have.property('trace')
-    errorResponse.trace.length.should.be.equal(0)
+    expect(errorResponse).toHaveProperty('errorType', 'object')
+    expect(errorResponse).toHaveProperty('errorMessage', '[object Object]')
+    expect(errorResponse).toHaveProperty('trace')
+    expect(errorResponse.trace.length).toEqual(0)
   })
 
   it('should handle arbitrary objects by converting them to string by calling the toString method', () => {
@@ -117,9 +120,9 @@ describe('Converting an Error to a Runtime response', () => {
     error.toString = () => error.text
     const errorResponse = Errors.toRuntimeResponse(error)
 
-    errorResponse.should.have.property('errorType', 'object')
-    errorResponse.should.have.property('errorMessage', 'custom message')
-    errorResponse.should.have.property('trace')
-    errorResponse.trace.length.should.be.equal(0)
+    expect(errorResponse).toHaveProperty('errorType', 'object')
+    expect(errorResponse).toHaveProperty('errorMessage', 'custom message')
+    expect(errorResponse).toHaveProperty('trace')
+    expect(errorResponse.trace.length).toEqual(0)
   })
 })

@@ -1,6 +1,5 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import 'should'
 import * as XRayError from '../../../src/Errors/XRayError'
 
 const { parse } = JSON
@@ -15,39 +14,44 @@ describe('Formatted Error Logging', () => {
                       at (/var/function/test_exec.js:4:123)`
 
     const loggedXRayError = parse(XRayError.toFormatted(error).trim())
-    loggedXRayError.should.have.property('working_directory')
-    loggedXRayError.should.have.property('exceptions')
-    loggedXRayError.should.have
-      .property('paths')
-      .with.containDeep([
+
+    expect(loggedXRayError).toHaveProperty('working_directory')
+    expect(loggedXRayError).toHaveProperty('exceptions')
+    expect(loggedXRayError).toHaveProperty(
+      'paths',
+      expect.arrayContaining([
         '/var/function/node_modules/event_invoke.js',
         '/var/function/test_exec.js',
-      ])
+      ]),
+    )
 
     const exceptions = loggedXRayError.exceptions
 
-    exceptions.should.have.length(1)
+    expect(exceptions.length).toEqual(1)
 
     const loggedError = exceptions[0]
 
-    loggedError.should.have.property('type', 'CircularError')
-    loggedError.should.have.property('message', 'custom message')
-    loggedError.should.have.property('stack').containDeep([
-      {
-        path: '/var/function/node_modules/event_invoke.js',
-        line: 3,
-        label: 'exports.handler',
-      },
-      {
-        path: '/var/function/node_modules/event_invoke.js',
-        line: 5,
-        label: 'exports.handler',
-      },
-      {
-        path: '/var/function/test_exec.js',
-        line: 4,
-        label: 'anonymous',
-      },
-    ])
+    expect(loggedError).toHaveProperty('type', 'CircularError')
+    expect(loggedError).toHaveProperty('message', 'custom message')
+    expect(loggedError).toHaveProperty(
+      'stack',
+      expect.arrayContaining([
+        {
+          path: '/var/function/node_modules/event_invoke.js',
+          line: 3,
+          label: 'exports.handler',
+        },
+        {
+          path: '/var/function/node_modules/event_invoke.js',
+          line: 5,
+          label: 'exports.handler',
+        },
+        {
+          path: '/var/function/test_exec.js',
+          line: 4,
+          label: 'anonymous',
+        },
+      ]),
+    )
   })
 })

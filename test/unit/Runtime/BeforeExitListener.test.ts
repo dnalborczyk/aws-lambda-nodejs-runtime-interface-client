@@ -1,13 +1,10 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import 'should'
-
 describe('Invoke the BeforeExitListener', () => {
   it('should not fail if a listerner has not been set', async () => {
-    const beforeExitListenerModule = await import(
+    const { default: beforeExitListener } = await import(
       '../../../src/Runtime/BeforeExitListener'
     )
-    const beforeExitListener = beforeExitListenerModule.default
 
     beforeExitListener.invoke()
   })
@@ -18,18 +15,17 @@ describe('Invoke the BeforeExitListener', () => {
       count++
     }
 
-    const beforeExitListenerModule = await import(
+    const { default: beforeExitListener } = await import(
       '../../../src/Runtime/BeforeExitListener'
     )
-    const beforeExitListener = beforeExitListenerModule.default
 
     beforeExitListener.set(listener)
 
     beforeExitListener.invoke()
-    count.should.be.equal(1)
+    expect(count).toEqual(1)
 
     beforeExitListener.invoke()
-    count.should.be.equal(2)
+    expect(count).toEqual(2)
   })
 
   it('should use the same listener even when imported again', async () => {
@@ -38,18 +34,19 @@ describe('Invoke the BeforeExitListener', () => {
       count++
     }
 
-    const beforeExitListenerModule = await import(
+    const { default: beforeExitListener } = await import(
       '../../../src/Runtime/BeforeExitListener'
     )
-    const beforeExitListener = beforeExitListenerModule.default
 
     beforeExitListener.set(listener)
     beforeExitListener.invoke()
 
-    const secondImport = await import('../../../src/Runtime/BeforeExitListener')
-    const secondBeforeExitListener = secondImport.default
+    const { default: secondBeforeExitListener } = await import(
+      '../../../src/Runtime/BeforeExitListener'
+    )
 
     secondBeforeExitListener.invoke()
-    count.should.be.equal(2)
+
+    expect(count).toEqual(2)
   })
 })
