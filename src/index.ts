@@ -8,7 +8,6 @@
 
 import http from 'http'
 import process, { env, exit } from 'process'
-import { HandlerFunction } from './Common/index'
 import * as Errors from './Errors/index'
 import RuntimeClient from './RuntimeClient/index'
 import Runtime from './Runtime/index'
@@ -50,7 +49,7 @@ export function run(appRoot: string, handler: string): void {
   BeforeExitListener.reset()
   process.on('beforeExit', BeforeExitListener.invoke)
 
-  const handlerFunc = UserFunction.load(appRoot, handler) as HandlerFunction
+  const handlerFunc = UserFunction.load(appRoot, handler)
   const runtime = new Runtime(client, handlerFunc, errorCallbacks)
 
   runtime.scheduleIteration()
