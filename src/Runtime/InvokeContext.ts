@@ -6,13 +6,13 @@
  * and for wrapping the Runtime Client object's error and response functions.
  */
 
-import { env } from 'node:process'
 import { strict as assert } from 'node:assert'
 import type { IncomingHttpHeaders } from 'node:http'
+import { env } from 'node:process'
 import {
   ICallbackContext,
-  IHeaderData,
   IEnvironmentData,
+  IHeaderData,
   INVOKE_HEADER,
 } from '../Common/index.js'
 import LogPatch from '../utils/LogPatch.js'

@@ -4,17 +4,17 @@ import type { IncomingHttpHeaders } from 'node:http'
 import BeforeExitListener from '../../../src/Runtime/BeforeExitListener'
 import type { IRuntimeClient } from '../../../src/RuntimeClient/index'
 import type {
-  InvocationResponse,
   CallbackFunction,
   ICallbackContext,
+  InvocationResponse,
 } from '../../../src/Common/index'
 import { build as buildCallBackContext } from '../../../src/Runtime/CallbackContext'
 
 const { stringify } = JSON
 
 class RuntimeClientStub implements IRuntimeClient {
-  lastId?: string
   lastError?: any
+  lastId?: string
   lastResponse?: string
 
   nextInvocation(): Promise<InvocationResponse> {

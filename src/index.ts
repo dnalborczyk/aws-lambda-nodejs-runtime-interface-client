@@ -9,9 +9,9 @@
 import http from 'node:http'
 import process, { env, exit } from 'node:process'
 import * as Errors from './Errors/index.js'
-import RuntimeClient from './RuntimeClient/index.js'
 import Runtime from './Runtime/index.js'
 import BeforeExitListener from './Runtime/BeforeExitListener.js'
+import RuntimeClient from './RuntimeClient/index.js'
 import LogPatch from './utils/LogPatch.js'
 import * as UserFunction from './utils/UserFunction.js'
 

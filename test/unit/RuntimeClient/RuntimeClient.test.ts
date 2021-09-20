@@ -1,7 +1,7 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import RuntimeClient from '../../../src/RuntimeClient/index'
 import * as runtimeErrors from '../../../src/Errors/index'
+import RuntimeClient from '../../../src/RuntimeClient/index'
 import { StubHttp } from '../utils/StubHttp'
 
 class EvilError extends Error {

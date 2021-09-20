@@ -1,10 +1,9 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
 import { promisify } from 'node:util'
+import InvokeContext from '../../../src/Runtime/InvokeContext'
 
 const sleep = promisify(setTimeout)
-
-import InvokeContext from '../../../src/Runtime/InvokeContext'
 
 describe('Getting remaining invoke time', () => {
   it('should reduce by at least elapsed time', async () => {

@@ -9,12 +9,12 @@ import { format } from 'node:util'
 const { freeze } = Object
 
 const levels = freeze({
-  INFO: { name: 'INFO' },
   DEBUG: { name: 'DEBUG' },
-  WARN: { name: 'WARN' },
   ERROR: { name: 'ERROR' },
-  TRACE: { name: 'TRACE' },
   FATAL: { name: 'FATAL' },
+  INFO: { name: 'INFO' },
+  TRACE: { name: 'TRACE' },
+  WARN: { name: 'WARN' },
 })
 
 /* Use a unique symbol to provide global access without risk of name clashes. */

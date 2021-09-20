@@ -8,10 +8,10 @@
 import { createRequire } from 'node:module'
 import {
   Agent,
-  RequestOptions,
-  IncomingMessage,
   ClientRequest,
+  IncomingMessage,
   OutgoingHttpHeaders,
+  RequestOptions,
 } from 'node:http'
 import { version } from 'node:process'
 import type { URL } from 'node:url'

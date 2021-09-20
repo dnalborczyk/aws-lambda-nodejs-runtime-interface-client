@@ -3,10 +3,10 @@
 
 import BeforeExitListener from './BeforeExitListener.js'
 import type {
+  CallbackFunction,
+  ErrorStringOrUndefined,
   ErrorStringOrUndefinedOrNull,
   ICallbackContext,
-  ErrorStringOrUndefined,
-  CallbackFunction,
 } from '../Common/index.js'
 import * as Errors from '../Errors/index.js'
 import type { IRuntimeClient } from '../RuntimeClient/index.js'

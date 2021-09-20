@@ -29,9 +29,9 @@ export const consoleSnapshot = (): (() => void) => {
 }
 
 interface CapturedStream {
+  captured: () => string
   hook: () => void
   unhook: () => any
-  captured: () => string
 }
 
 /**

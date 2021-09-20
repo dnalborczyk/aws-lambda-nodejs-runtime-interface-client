@@ -24,8 +24,8 @@ export function isError(obj: any): obj is Error {
 }
 
 interface RuntimeErrorResponse {
-  errorType: string
   errorMessage: string
+  errorType: string
   trace: string[]
 }
 
@@ -102,8 +102,8 @@ function _withEnumerableProperties(error: any) {
 export class ExtendedError extends Error {
   code?: number
   custom?: string
-  reason?: string
   promise?: Promise<any>
+  reason?: string
 
   constructor(reason?: string) {
     super(reason) // 'Error' breaks prototype chain here

@@ -7,8 +7,8 @@
 
 import { exit } from 'node:process'
 import BeforeExitListener from './BeforeExitListener.js'
-import type { HandlerFunction, IErrorCallbacks } from '../Common/index.js'
 import * as CallbackContext from './CallbackContext.js'
+import type { HandlerFunction, IErrorCallbacks } from '../Common/index.js'
 import InvokeContext from './InvokeContext.js'
 import type { IRuntimeClient } from '../RuntimeClient/index.js'
 
