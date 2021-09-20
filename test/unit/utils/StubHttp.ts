@@ -18,13 +18,8 @@ export const noOpRequest = freeze({
 })
 
 export class StubHttp {
-  lastUsedOptions: RequestOptions | string | URL
-  Agent: any
-
-  constructor() {
-    this.lastUsedOptions = {}
-    this.Agent = class FakeAgent {}
-  }
+  Agent: any = class FakeAgent {}
+  lastUsedOptions: RequestOptions | string | URL = {}
 
   request(options: RequestOptions | string | URL): ClientRequest {
     this.lastUsedOptions = options

@@ -14,13 +14,8 @@ const _LOG_IDENTIFIER = Buffer.from('a55a0001', 'hex')
  * reading individual log statements from the file.
  */
 export default class FakeTelemetryTarget {
-  readTarget: number
-  writeTarget: number
-
-  constructor() {
-    this.readTarget = 0
-    this.writeTarget = 0
-  }
+  readTarget = 0
+  writeTarget = 0
 
   openFile(): void {
     const tempTelemetryDir = mkdtempSync(

@@ -61,13 +61,11 @@ interface XRayError {
 }
 
 class XRayFormattedCause {
-  working_directory: string
   exceptions: XRayError[]
   paths: string[]
+  working_directory = cwd()
 
   constructor(err: Error) {
-    this.working_directory = cwd() // eslint-disable-line
-
     const stack: XRayStackEntry[] = []
     if (err.stack) {
       const stackLines = err.stack.split('\n')
