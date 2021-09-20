@@ -8,16 +8,16 @@
 
 import http from 'http'
 import process, { env, exit } from 'process'
-import * as Errors from './Errors/index'
-import RuntimeClient from './RuntimeClient/index'
-import Runtime from './Runtime/index'
-import BeforeExitListener from './Runtime/BeforeExitListener'
-import LogPatch from './utils/LogPatch'
-import * as UserFunction from './utils/UserFunction'
+import * as Errors from './Errors/index.js'
+import RuntimeClient from './RuntimeClient/index.js'
+import Runtime from './Runtime/index.js'
+import BeforeExitListener from './Runtime/BeforeExitListener.js'
+import LogPatch from './utils/LogPatch.js'
+import * as UserFunction from './utils/UserFunction.js'
 
 LogPatch.patchConsole()
 
-export function run(appRoot: string, handler: string): void {
+export async function run(appRoot: string, handler: string): Promise<void> {
   if (!env.AWS_LAMBDA_RUNTIME_API) {
     throw new Error('Missing Runtime API Server configuration.')
   }
@@ -49,7 +49,7 @@ export function run(appRoot: string, handler: string): void {
   BeforeExitListener.reset()
   process.on('beforeExit', BeforeExitListener.invoke)
 
-  const handlerFunc = UserFunction.load(appRoot, handler)
+  const handlerFunc = await UserFunction.load(appRoot, handler)
   const runtime = new Runtime(client, handlerFunc, errorCallbacks)
 
   runtime.scheduleIteration()

@@ -5,6 +5,7 @@
  * interactions with the Runtime layer.
  */
 
+import { createRequire } from 'module'
 import {
   Agent,
   RequestOptions,
@@ -14,9 +15,9 @@ import {
 } from 'http'
 import { version } from 'process'
 import type { URL } from 'url'
-import type { InvocationResponse } from '../Common/index'
-import * as Errors from '../Errors/index'
-import * as XRayError from '../Errors/XRayError'
+import type { InvocationResponse } from '../Common/index.js'
+import * as Errors from '../Errors/index.js'
+import * as XRayError from '../Errors/XRayError.js'
 
 const { stringify } = JSON
 const { assign } = Object
@@ -49,8 +50,8 @@ export interface IRuntimeClient {
 }
 
 function userAgent(): string {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { version: pkgVersion } = require('../../package.json')
+  const legacyRequire = createRequire(import.meta.url)
+  const { version: pkgVersion } = legacyRequire('../../package.json')
 
   return `aws-lambda-nodejs/${version}-${pkgVersion}`
 }

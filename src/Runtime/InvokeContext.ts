@@ -14,8 +14,8 @@ import {
   IHeaderData,
   IEnvironmentData,
   INVOKE_HEADER,
-} from '../Common/index'
-import LogPatch from '../utils/LogPatch'
+} from '../Common/index.js'
+import LogPatch from '../utils/LogPatch.js'
 
 const { parse } = JSON
 const { assign, entries, fromEntries } = Object

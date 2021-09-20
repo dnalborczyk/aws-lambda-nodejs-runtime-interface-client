@@ -6,11 +6,11 @@
  */
 
 import { exit } from 'process'
-import BeforeExitListener from './BeforeExitListener'
-import type { HandlerFunction, IErrorCallbacks } from '../Common/index'
-import * as CallbackContext from './CallbackContext'
-import InvokeContext from './InvokeContext'
-import type { IRuntimeClient } from '../RuntimeClient/index'
+import BeforeExitListener from './BeforeExitListener.js'
+import type { HandlerFunction, IErrorCallbacks } from '../Common/index.js'
+import * as CallbackContext from './CallbackContext.js'
+import InvokeContext from './InvokeContext.js'
+import type { IRuntimeClient } from '../RuntimeClient/index.js'
 
 const { parse } = JSON
 

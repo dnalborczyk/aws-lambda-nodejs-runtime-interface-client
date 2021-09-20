@@ -1,7 +1,7 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
 import { cwd } from 'process'
-import { isError } from './index'
+import { isError } from './index.js'
 
 const { stringify } = JSON
 

@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import BeforeExitListener from './BeforeExitListener'
+import BeforeExitListener from './BeforeExitListener.js'
 import type {
   ErrorStringOrUndefinedOrNull,
   ICallbackContext,
   ErrorStringOrUndefined,
   CallbackFunction,
-} from '../Common/index'
-import * as Errors from '../Errors/index'
-import type { IRuntimeClient } from '../RuntimeClient/index'
+} from '../Common/index.js'
+import * as Errors from '../Errors/index.js'
+import type { IRuntimeClient } from '../RuntimeClient/index.js'
 
 /**
  * Construct the base-context object which includes the required flags and
