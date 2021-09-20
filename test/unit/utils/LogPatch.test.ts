@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import process, { env } from 'process'
+import process, { env } from 'node:process'
 import LogPatch from '../../../src/utils/LogPatch'
 import * as Errors from '../../../src/Errors/index'
 import { captureStream, consoleSnapshot } from './LoggingGlobals'

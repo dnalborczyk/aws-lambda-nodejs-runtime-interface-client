@@ -1,10 +1,10 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import * as assert from 'assert'
-import { closeSync, mkdtempSync, openSync, readSync } from 'fs'
-import { tmpdir } from 'os'
-import { join } from 'path'
-import { env } from 'process'
+import * as assert from 'node:assert'
+import { closeSync, mkdtempSync, openSync, readSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { env } from 'node:process'
 
 const _LOG_IDENTIFIER = Buffer.from('a55a0001', 'hex')
 

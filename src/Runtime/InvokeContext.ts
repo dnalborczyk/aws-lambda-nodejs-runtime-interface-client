@@ -6,9 +6,9 @@
  * and for wrapping the Runtime Client object's error and response functions.
  */
 
-import { env } from 'process'
-import { strict as assert } from 'assert'
-import type { IncomingHttpHeaders } from 'http'
+import { env } from 'node:process'
+import { strict as assert } from 'node:assert'
+import type { IncomingHttpHeaders } from 'node:http'
 import {
   ICallbackContext,
   IHeaderData,

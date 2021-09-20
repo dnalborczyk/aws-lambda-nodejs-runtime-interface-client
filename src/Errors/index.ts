@@ -6,7 +6,7 @@
  * Defines custom error types throwable by the runtime.
  */
 
-import { types } from 'util'
+import { types } from 'node:util'
 
 const { stringify } = JSON
 const { assign, setPrototypeOf } = Object

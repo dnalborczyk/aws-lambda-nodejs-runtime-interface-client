@@ -5,7 +5,7 @@
  * bootstrap's execution flow.
  */
 
-import { exit } from 'process'
+import { exit } from 'node:process'
 import BeforeExitListener from './BeforeExitListener.js'
 import type { HandlerFunction, IErrorCallbacks } from '../Common/index.js'
 import * as CallbackContext from './CallbackContext.js'

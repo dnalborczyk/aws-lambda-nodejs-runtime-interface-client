@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { promisify } from 'util'
+import { promisify } from 'node:util'
 
 const sleep = promisify(setTimeout)
 

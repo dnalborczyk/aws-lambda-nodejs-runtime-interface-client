@@ -2,9 +2,9 @@
 /* eslint-disable no-console */
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { writeSync } from 'fs'
-import process, { env } from 'process'
-import { format } from 'util'
+import { writeSync } from 'node:fs'
+import process, { env } from 'node:process'
+import { format } from 'node:util'
 
 const { freeze } = Object
 

@@ -5,16 +5,16 @@
  * interactions with the Runtime layer.
  */
 
-import { createRequire } from 'module'
+import { createRequire } from 'node:module'
 import {
   Agent,
   RequestOptions,
   IncomingMessage,
   ClientRequest,
   OutgoingHttpHeaders,
-} from 'http'
-import { version } from 'process'
-import type { URL } from 'url'
+} from 'node:http'
+import { version } from 'node:process'
+import type { URL } from 'node:url'
 import type { InvocationResponse } from '../Common/index.js'
 import * as Errors from '../Errors/index.js'
 import * as XRayError from '../Errors/XRayError.js'

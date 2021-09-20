@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /** Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { argv, cwd } from 'process'
+import { argv, cwd } from 'node:process'
 import { run } from '../lib/index.js'
 
 if (argv.length < 3) {

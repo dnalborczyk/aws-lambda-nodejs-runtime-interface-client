@@ -6,8 +6,8 @@
  * listeners and loads the user's code.
  */
 
-import http from 'http'
-import process, { env, exit } from 'process'
+import http from 'node:http'
+import process, { env, exit } from 'node:process'
 import * as Errors from './Errors/index.js'
 import RuntimeClient from './RuntimeClient/index.js'
 import Runtime from './Runtime/index.js'

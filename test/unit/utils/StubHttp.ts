@@ -1,7 +1,7 @@
 /** Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import { RequestOptions, ClientRequest } from 'http'
-import { URL } from 'url'
+import type { RequestOptions, ClientRequest } from 'node:http'
+import type { URL } from 'node:url'
 
 const { freeze } = Object
 

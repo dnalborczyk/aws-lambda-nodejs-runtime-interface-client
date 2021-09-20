@@ -1,6 +1,6 @@
 /** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 
-import type { IncomingHttpHeaders } from 'http'
+import type { IncomingHttpHeaders } from 'node:http'
 import BeforeExitListener from '../../../src/Runtime/BeforeExitListener'
 import type { IRuntimeClient } from '../../../src/RuntimeClient/index'
 import type {

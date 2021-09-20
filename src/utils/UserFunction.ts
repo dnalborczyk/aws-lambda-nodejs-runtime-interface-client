@@ -6,9 +6,9 @@
  * in a handler string.
  */
 
-import { existsSync } from 'fs'
-import { createRequire } from 'module'
-import { basename, resolve } from 'path'
+import { existsSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import { basename, resolve } from 'node:path'
 import type { HandlerFunction } from '../Common/index.js'
 import {
   HandlerNotFound,
