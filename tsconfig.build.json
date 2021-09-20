@@ -1,4 +1,10 @@
 {
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./lib",
+    "declarationMap": true,
+    "outDir": "./lib",
+  },
   "exclude": ["test"],
   "extends": "./tsconfig.json"
 }
