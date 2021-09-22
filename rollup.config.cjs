@@ -1,3 +1,4 @@
+const replace = require('@rollup/plugin-replace')
 const typescript = require('@rollup/plugin-typescript')
 const { terser } = require('rollup-plugin-terser')
 
@@ -18,6 +19,12 @@ module.exports = {
     sourcemap: true,
   },
   plugins: [
+    replace({
+      delimiters: ['', ''],
+      values: {
+        '../../package.json': './package',
+      },
+    }),
     typescript({
       tsconfig: './tsconfig.rollup.json',
     }),
