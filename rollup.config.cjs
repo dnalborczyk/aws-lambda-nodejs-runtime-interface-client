@@ -21,6 +21,10 @@ module.exports = {
     typescript({
       tsconfig: './tsconfig.rollup.json',
     }),
-    terser(),
+    terser({
+      format: {
+        comments: false,
+      },
+    }),
   ],
 }
