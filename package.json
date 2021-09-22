@@ -9,7 +9,7 @@
     "archive": "npx rimraf aws-lambda-ric-*.tgz && npm install && npm run build && npm pack",
     "clean": "npx rimraf {build, node_modules}",
     "build": "npx rimraf lib && npm run tsc",
-    "build:bundle": "rollup -c",
+    "build:bundle": "npx rimraf dist && rollup -c",
     "format": "npm run format:src && npm run format:test",
     "format:src": "prettier --check \"src/**/*.ts\" --write",
     "format:test": "prettier --check \"test/**/*.ts\" --write",
