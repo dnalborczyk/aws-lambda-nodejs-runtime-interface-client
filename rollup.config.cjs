@@ -12,10 +12,12 @@ module.exports = {
     'node:module',
     'node:util',
   ],
+
   input: 'src/index.ts',
   output: {
     file: 'dist/index.js',
     format: 'esm',
+    generatedCode: 'es2015',
     sourcemap: true,
   },
   plugins: [
