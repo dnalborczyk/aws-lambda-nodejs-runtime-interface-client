@@ -28,6 +28,9 @@
   "bin": {
     "aws-lambda-ric": "bin/index.js"
   },
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run precommit"
