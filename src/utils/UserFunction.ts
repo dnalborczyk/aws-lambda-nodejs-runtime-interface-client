@@ -41,7 +41,7 @@ function _moduleRootAndHandler(fullHandlerString: string): [string, string] {
  */
 function _splitHandlerString(handler: string): [string, string] {
   const match = handler.match(FUNCTION_EXPR)
-  if (!match || match.length != 3) {
+  if (!match || match.length !== 3) {
     throw new MalformedHandlerName('Bad handler')
   }
   return [match[1], match[2]] // [module, function-path]

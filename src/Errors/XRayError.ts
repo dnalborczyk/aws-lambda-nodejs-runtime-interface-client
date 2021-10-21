@@ -81,7 +81,7 @@ class XRayFormattedCause {
             : null
 
         const path =
-          label == undefined || label == null || label.length === 0
+          label == null || label.length === 0
             ? line
             : line.slice(line.lastIndexOf(' ') + 1)
 

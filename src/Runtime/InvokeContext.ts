@@ -38,7 +38,7 @@ export default class InvokeContext {
       case 'string':
         return headerVal
       default:
-        if (headerVal.length == 0) {
+        if (headerVal.length === 0) {
           return undefined
         }
 

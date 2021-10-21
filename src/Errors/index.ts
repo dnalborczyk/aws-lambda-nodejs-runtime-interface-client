@@ -90,7 +90,7 @@ function _withEnumerableProperties(error: any) {
       },
       extendedError,
     )
-    if (typeof extendedError.stack == 'string') {
+    if (typeof extendedError.stack === 'string') {
       ret.stack = extendedError.stack.split('\n')
     }
     return ret
