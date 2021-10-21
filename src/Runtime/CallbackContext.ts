@@ -147,8 +147,7 @@ function _wrappedCallbackContext(
   function onlyAllowFirstCall(toWrap: Function) {
     return function setFinished(...args: unknown[]) {
       if (!finished) {
-        // eslint-disable-next-line prefer-spread
-        toWrap.apply(null, args)
+        toWrap(...args)
         finished = true
       }
     }
