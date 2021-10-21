@@ -78,7 +78,7 @@ export default class RuntimeClient implements IRuntimeClient {
 
     const [hostname, port] = hostnamePort.split(':')
     this.#hostname = hostname
-    this.#port = parseInt(port, 10)
+    this.#port = +port
   }
 
   /**

@@ -92,7 +92,7 @@ function _patchConsoleWith(log: any) {
 
 function _patchConsole(): void {
   if (env['_LAMBDA_TELEMETRY_LOG_FD'] != null) {
-    const logFd = parseInt(env['_LAMBDA_TELEMETRY_LOG_FD'])
+    const logFd = +env['_LAMBDA_TELEMETRY_LOG_FD']
     _patchConsoleWith(_logToFd(logFd))
     delete env['_LAMBDA_TELEMETRY_LOG_FD']
   } else {

@@ -89,7 +89,7 @@ class XRayFormattedCause {
 
         const entry = {
           path: pathParts[0],
-          line: parseInt(pathParts[1]),
+          line: +pathParts[1],
           label: label ?? 'anonymous',
         }
 

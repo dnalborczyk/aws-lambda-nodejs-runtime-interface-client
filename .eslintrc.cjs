@@ -27,7 +27,6 @@ module.exports = {
     'prefer-destructuring': 'off',
     'prefer-object-spread': 'off',
     'prefer-template': 'off',
-    radix: 'off',
     'import/prefer-default-export': 'off',
     '@typescript-eslint/dot-notation': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
