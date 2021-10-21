@@ -153,8 +153,11 @@ function _wrappedCallbackContext(
     }
   }
 
+  // eslint-disable-next-line no-param-reassign
   callbackContext.succeed = onlyAllowFirstCall(callbackContext.succeed)
+  // eslint-disable-next-line no-param-reassign
   callbackContext.fail = onlyAllowFirstCall(callbackContext.fail)
+  // eslint-disable-next-line no-param-reassign
   callbackContext.done = onlyAllowFirstCall(callbackContext.done)
 
   return [onlyAllowFirstCall(callback), callbackContext]

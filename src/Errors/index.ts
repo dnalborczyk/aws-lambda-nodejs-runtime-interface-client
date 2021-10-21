@@ -129,5 +129,6 @@ export class UnhandledPromiseRejection extends ExtendedError {
   UserCodeSyntaxError,
   UnhandledPromiseRejection,
 ].forEach((err) => {
+  // eslint-disable-next-line no-param-reassign
   err.prototype.name = `Runtime.${err.name}`
 })

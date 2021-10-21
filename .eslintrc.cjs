@@ -19,12 +19,10 @@ module.exports = {
     // TODO FIXME temporary exceptions:
     'class-methods-use-this': 'off',
     'max-classes-per-file': 'off',
-    'no-param-reassign': 'off',
     'no-return-assign': 'off',
     'no-underscore-dangle': 'off',
     'prefer-template': 'off',
     'import/prefer-default-export': 'off',
-    // '@typescript-eslint/dot-notation': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
     '@typescript-eslint/naming-convention': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
