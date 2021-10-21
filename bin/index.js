@@ -9,7 +9,7 @@ if (argv.length < 3) {
 }
 
 const appRoot = cwd()
-const handler = argv[2]
+const [, , handler] = argv
 
 console.log(`Executing '${handler}' in function directory '${appRoot}'`)
 run(appRoot, handler)
