@@ -145,7 +145,7 @@ function _wrappedCallbackContext(
   let finished = false
   // eslint-disable-next-line @typescript-eslint/ban-types
   function onlyAllowFirstCall(toWrap: Function) {
-    return function (...args: unknown[]) {
+    return function setFinished(...args: unknown[]) {
       if (!finished) {
         // eslint-disable-next-line prefer-spread
         toWrap.apply(null, args)

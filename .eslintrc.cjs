@@ -18,7 +18,6 @@ module.exports = {
   rules: {
     // TODO FIXME temporary exceptions:
     'class-methods-use-this': 'off',
-    'func-names': 'off',
     'max-classes-per-file': 'off',
     'no-param-reassign': 'off',
     'no-return-assign': 'off',
