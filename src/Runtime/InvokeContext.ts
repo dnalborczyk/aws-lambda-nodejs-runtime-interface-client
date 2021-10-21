@@ -20,8 +20,6 @@ import LogPatch from '../utils/LogPatch.js'
 const { parse } = JSON
 const { assign, entries, fromEntries } = Object
 
-const setCurrentRequestId = LogPatch.setCurrentRequestId
-
 export default class InvokeContext {
   headers: IncomingHttpHeaders
 
@@ -66,7 +64,7 @@ export default class InvokeContext {
    * Push relevant invoke data into the logging context.
    */
   updateLoggingContext(): void {
-    setCurrentRequestId(this.invokeId)
+    LogPatch.setCurrentRequestId(this.invokeId)
   }
 
   /**
