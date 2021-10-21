@@ -94,11 +94,11 @@ export default class InvokeContext {
    */
   #environmentalData(): IEnvironmentData {
     return {
-      functionVersion: env['AWS_LAMBDA_FUNCTION_VERSION'],
-      functionName: env['AWS_LAMBDA_FUNCTION_NAME'],
-      memoryLimitInMB: env['AWS_LAMBDA_FUNCTION_MEMORY_SIZE'],
-      logGroupName: env['AWS_LAMBDA_LOG_GROUP_NAME'],
-      logStreamName: env['AWS_LAMBDA_LOG_STREAM_NAME'],
+      functionVersion: env.AWS_LAMBDA_FUNCTION_VERSION,
+      functionName: env.AWS_LAMBDA_FUNCTION_NAME,
+      memoryLimitInMB: env.AWS_LAMBDA_FUNCTION_MEMORY_SIZE,
+      logGroupName: env.AWS_LAMBDA_LOG_GROUP_NAME,
+      logStreamName: env.AWS_LAMBDA_LOG_STREAM_NAME,
     }
   }
 
@@ -134,9 +134,9 @@ export default class InvokeContext {
    */
   #forwardXRay(): void {
     if (this.#getHeaderValue(INVOKE_HEADER.XRayTrace)) {
-      env['_X_AMZN_TRACE_ID'] = this.#getHeaderValue(INVOKE_HEADER.XRayTrace)
+      env._X_AMZN_TRACE_ID = this.#getHeaderValue(INVOKE_HEADER.XRayTrace)
     } else {
-      delete env['_X_AMZN_TRACE_ID']
+      delete env._X_AMZN_TRACE_ID
     }
   }
 }

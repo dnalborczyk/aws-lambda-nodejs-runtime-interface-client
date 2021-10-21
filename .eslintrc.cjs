@@ -24,7 +24,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'prefer-template': 'off',
     'import/prefer-default-export': 'off',
-    '@typescript-eslint/dot-notation': 'off',
+    // '@typescript-eslint/dot-notation': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
     '@typescript-eslint/naming-convention': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
