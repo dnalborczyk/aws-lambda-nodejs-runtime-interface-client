@@ -20,7 +20,6 @@ import * as Errors from '../Errors/index.js'
 import * as XRayError from '../Errors/XRayError.js'
 
 const { stringify } = JSON
-const { assign } = Object
 
 const ERROR_TYPE_HEADER = 'Lambda-Runtime-Function-Error-Type'
 const XRAY_ERROR_CAUSE = 'Lambda-Runtime-Function-XRay-Error-Cause'
@@ -202,13 +201,11 @@ export default class RuntimeClient implements IRuntimeClient {
     const bodyString = _trySerializeResponse(body)
     const options: RequestOptions = {
       agent: this.#agent,
-      headers: assign(
-        {
-          'Content-Length': Buffer.from(bodyString).length,
-          'Content-Type': 'application/json',
-        },
-        headers ?? {},
-      ),
+      headers: {
+        'Content-Length': Buffer.from(bodyString).length,
+        'Content-Type': 'application/json',
+        ...(headers ?? {}),
+      },
       hostname: this.#hostname,
       method: 'POST',
       path,

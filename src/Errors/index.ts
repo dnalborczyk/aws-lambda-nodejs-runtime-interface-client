@@ -9,7 +9,7 @@
 import { types } from 'node:util'
 
 const { stringify } = JSON
-const { assign, setPrototypeOf } = Object
+const { setPrototypeOf } = Object
 
 export function isError(obj: any): obj is Error {
   return (
@@ -82,14 +82,13 @@ export function toFormatted(error: unknown): string {
 function _withEnumerableProperties(error: any) {
   if (error instanceof Error) {
     const extendedError: ExtendedError = <ExtendedError>(<any>error)
-    const ret: any = assign(
-      {
-        errorType: extendedError.name,
-        errorMessage: extendedError.message,
-        code: extendedError.code,
-      },
-      extendedError,
-    )
+    const ret: any = {
+      errorType: extendedError.name,
+      errorMessage: extendedError.message,
+      code: extendedError.code,
+      ...extendedError,
+    }
+
     if (typeof extendedError.stack === 'string') {
       ret.stack = extendedError.stack.split('\n')
     }

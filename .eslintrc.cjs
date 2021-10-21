@@ -22,7 +22,6 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-return-assign': 'off',
     'no-underscore-dangle': 'off',
-    'prefer-object-spread': 'off',
     'prefer-template': 'off',
     'import/prefer-default-export': 'off',
     '@typescript-eslint/dot-notation': 'off',
