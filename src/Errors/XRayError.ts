@@ -101,7 +101,7 @@ class XRayFormattedCause {
       {
         type: err.name,
         message: err.message,
-        stack: stack,
+        stack,
       },
     ]
 

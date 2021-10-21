@@ -211,7 +211,7 @@ export default class RuntimeClient implements IRuntimeClient {
       ),
       hostname: this.#hostname,
       method: 'POST',
-      path: path,
+      path,
       port: this.#port,
     }
 
