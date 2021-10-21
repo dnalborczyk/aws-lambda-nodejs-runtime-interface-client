@@ -204,8 +204,8 @@ export default class RuntimeClient implements IRuntimeClient {
       agent: this.#agent,
       headers: assign(
         {
-          'Content-Type': 'application/json',
           'Content-Length': Buffer.from(bodyString).length,
+          'Content-Type': 'application/json',
         },
         headers ?? {},
       ),
